@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "submissions",
+  "info": {
+    "singularName": "submission",
+    "pluralName": "submissions",
+    "displayName": "Submission"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "runner": {
+      "type": "string",
+      "required": true
+    },
+    "runner_url": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string",
+      "required": false
+    },
+    "note": {
+      "type": "text"
+    },
+    "submitted_date": {
+      "type": "datetime"
+    },
+    "result": {
+      "type": "text"
+    },
+    "state": {
+      "type": "enumeration",
+      "default": "pending",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    }
+  }
+}

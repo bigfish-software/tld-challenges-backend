@@ -117,36 +117,44 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Database**: Connects to managed PostgreSQL instances in production
 - **External Assets**: No media storage requirements, only URL references to external platforms
 
-#### 8. Key Content-Types (Planned)
+#### 8. Key Content-Types (Implemented)
 - **Challenge**: Main challenge definitions with rules, custom code, and metadata
-  - Fields: name (Text), description (Rich text (Blocks)), difficulty (Enumeration), slug (UID), created_date (Date), updated_date (Date)
-  - Relations: submissions (One to Many with Submission), custom_code (One to One with CustomCode), rules (One to Many with Rule), tournaments (Many to Many with Tournament), creators (Many to Many with Creator)
+  - Fields: name (Text, required), description (Rich text (Blocks)), difficulty (Enumeration: "Pilgrim", "Voyager", "Stalker", "Interloper", "Misery", "Nogoa", "Custom", default: "Custom"), slug (UID, targetField: name, required), created_date (Date and time), updated_date (Date and time)
+  - Relations: submissions (One to Many with Submission), custom_code (Many to One with CustomCode), rules (Many to Many with Rule), tournament (Many to One with Tournament), creators (Many to Many with Creator), faqs (Many to Many with FAQ)
+  - Special: Draft/Publish enabled
 - **Submission**: Anonymous user run submissions with validation, external media links, and moderation workflow
-  - Fields: runner (Text), runner_url (Text), video_url (Text), notes (Text), state (Enumeration), result (Text), submitted_date (Date)
+  - Fields: runner (Text, required), runner_url (Text), video_url (Text), note (Text), state (Enumeration: "pending", "approved", "rejected", default: "pending"), result (Text), submitted_date (Date and time)
   - Relations: challenge (Many to One with Challenge)
   - Special: Draft/Publish enabled for moderation
 - **Tournament**: Tournament structures and participant management
-  - Fields: name (Text), description (Rich text (Blocks)), slug (UID), start_date (Date), end_date (Date), state (Enumeration), created_date (Date), updated_date (Date)
-  - Relations: challenges (Many to Many with Challenge), creators (Many to Many with Creator)
+  - Fields: name (Text, required), description (Rich text (Blocks)), slug (UID, targetField: name, required), start_date (Date and time, required), end_date (Date and time, required), state (Enumeration: "planned", "active", "completed", "cancelled", default: "planned"), created_date (Date and time), updated_date (Date and time)
+  - Relations: challenges (One to Many with Challenge), creators (Many to Many with Creator), faqs (Many to Many with FAQ)
+  - Special: Draft/Publish enabled
 - **CustomCode**: Reusable custom game configuration codes
-  - Fields: name (Text), code (Text), description (Rich text (Blocks)), slug (UID), created_date (Date), updated_date (Date)
-  - Relations: challenge (One to One with Challenge), creators (Many to Many with Creator)
+  - Fields: name (Text, required, unique), code (Text, required), description (Rich text (Blocks)), slug (UID, targetField: name, required), created_date (Date and time), updated_date (Date and time)
+  - Relations: challenges (One to Many with Challenge), creators (Many to Many with Creator), faqs (Many to Many with FAQ)
+  - Special: Draft/Publish enabled
 - **Rule**: Modular rule definitions for challenges
-  - Fields: description (Rich text (Blocks))
-  - Relations: challenge (Many to One with Challenge)
-- **Creator**: Challenge creator profiles with social media links
-  - Fields: name (Text), twitch (Text), youtube (Text)
-  - Relations: challenges (Many to Many with Challenge), tournaments (Many to Many with Tournament), custom_codes (Many to Many with CustomCode)
-- **FAQ**: Frequently asked questions with challenge associations
-  - Fields: question (Text), answer (Rich text (Blocks))
+  - Fields: description (Rich text (Blocks), required)
   - Relations: challenges (Many to Many with Challenge)
+  - Special: Draft/Publish enabled
+- **Creator**: Challenge creator profiles with social media links
+  - Fields: name (Text, required, unique), slug (UID, targetField: name, required), twitch (Text), youtube (Text)
+  - Relations: challenges (Many to Many with Challenge), tournaments (Many to Many with Tournament), custom_codes (Many to Many with CustomCode)
+  - Special: Draft/Publish enabled
+- **FAQ**: Frequently asked questions with challenge, custom code, and tournament associations
+  - Fields: question (Text, required), answer (Rich text (Blocks), required)
+  - Relations: challenges (Many to Many with Challenge), custom_codes (Many to Many with CustomCode), tournaments (Many to Many with Tournament)
+  - Special: Draft/Publish enabled
 
 #### 9. API Customization Focus Areas
 - **Leaderboard Logic**: Complex ranking calculations in custom services
-- **Submission Validation**: Business rules for run verification
+- **Submission Validation**: Business rules for run verification  
 - **Tournament Management**: Bracket and scoring systems
-- **Challenge Organization**: Content organization without categories (challenges can be filtered by difficulty, creator, or other attributes)
+- **Challenge Organization**: Content organization with filtering by difficulty, creator, custom codes, or tournament associations
 - **Media Validation**: URL validation and metadata extraction for external video/image links
+- **Creator Attribution**: Multi-entity creator relationships across challenges, tournaments, and custom codes
+- **FAQ Management**: Cross-entity FAQ associations for comprehensive help system
 
 #### 10. Frontend-Backend Communication & Security
 - **Long-lived JWT Token**: Frontend uses a single environment-configured JWT token for API access

@@ -296,80 +296,92 @@ Before starting the Strapi server, plan your content-types based on the project 
 
 1. **Challenge** (Collection Type)
    - Fields: 
-     - name (Text)
+     - name (Text, required)
      - description (Rich text (Blocks))
-     - difficulty (Enumeration: "Pilgrim", "Voyager", "Stalker", "Interloper", "Misery", "Custom")
-     - slug (UID, targetField: name)
-     - created_date (Date)
-     - updated_date (Date)
+     - difficulty (Enumeration: "Pilgrim", "Voyager", "Stalker", "Interloper", "Misery", "Nogoa", "Custom", default: "Custom")
+     - slug (UID, targetField: name, required)
+     - created_date (Date and time)
+     - updated_date (Date and time)
    - Relations: 
      - submissions (Relation: One to Many with Submission)
-     - custom_code (Relation: One to One with CustomCode)
-     - rules (Relation: One to Many with Rule)
-     - tournaments (Relation: Many to Many with Tournament)
+     - custom_code (Relation: Many to One with CustomCode)
+     - rules (Relation: Many to Many with Rule)
+     - tournament (Relation: Many to One with Tournament)
      - creators (Relation: Many to Many with Creator)
+     - faqs (Relation: Many to Many with FAQ)
+   - Special: Draft/Publish enabled
 
 2. **Submission** (Collection Type)
    - Fields:
-     - runner (Text)
+     - runner (Text, required)
      - runner_url (Text)
      - video_url (Text)
-     - notes (Text)
+     - note (Text)
      - state (Enumeration: "pending", "approved", "rejected", default: "pending")
      - result (Text)
-     - submitted_date (Date)
+     - submitted_date (Date and time)
    - Relations:
      - challenge (Relation: Many to One with Challenge)
    - Special: Draft/Publish enabled for moderation
 
 3. **Tournament** (Collection Type)
    - Fields:
-     - name (Text)
+     - name (Text, required)
      - description (Rich text (Blocks))
-     - slug (UID, targetField: name)
-     - start_date (Date)
-     - end_date (Date)
+     - slug (UID, targetField: name, required)
+     - start_date (Date and time, required)
+     - end_date (Date and time, required)
      - state (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
-     - created_date (Date)
-     - updated_date (Date)
+     - created_date (Date and time)
+     - updated_date (Date and time)
    - Relations:
-     - challenges (Relation: Many to Many with Challenge)
+     - challenges (Relation: One to Many with Challenge)
      - creators (Relation: Many to Many with Creator)
+     - faqs (Relation: Many to Many with FAQ)
+   - Special: Draft/Publish enabled
 
 4. **CustomCode** (Collection Type)
    - Fields:
-     - name (Text)
-     - code (Text)
+     - name (Text, required, unique)
+     - code (Text, required)
      - description (Rich text (Blocks))
-     - slug (UID, targetField: name)
-     - created_date (Date)
-     - updated_date (Date)
+     - slug (UID, targetField: name, required)
+     - created_date (Date and time)
+     - updated_date (Date and time)
    - Relations:
-     - challenge (Relation: One to One with Challenge)
+     - challenges (Relation: One to Many with Challenge)
      - creators (Relation: Many to Many with Creator)
+     - faqs (Relation: Many to Many with FAQ)
+   - Special: Draft/Publish enabled
 
 5. **Rule** (Collection Type)
    - Fields:
-     - description (Rich text (Blocks))
+     - description (Rich text (Blocks), required)
    - Relations:
-     - challenge (Relation: Many to One with Challenge)
+     - challenges (Relation: Many to Many with Challenge)
+   - Special: Draft/Publish enabled
 
 6. **Creator** (Collection Type)
    - Fields:
-     - name (Text)
+     - name (Text, required, unique)
+     - slug (UID, targetField: name, required)
      - twitch (Text)
      - youtube (Text)
    - Relations:
      - challenges (Relation: Many to Many with Challenge)
      - tournaments (Relation: Many to Many with Tournament)
      - custom_codes (Relation: Many to Many with CustomCode)
+   - Special: Draft/Publish enabled
 
 7. **FAQ** (Collection Type)
    - Fields:
-     - question (Text)
-     - answer (Rich text (Blocks))
+     - question (Text, required)
+     - answer (Rich text (Blocks), required)
    - Relations:
      - challenges (Relation: Many to Many with Challenge)
+     - custom_codes (Relation: Many to Many with CustomCode)
+     - tournaments (Relation: Many to Many with Tournament)
+   - Special: Draft/Publish enabled
 
 ## Step 7: First Startup and Admin Setup
 
@@ -415,7 +427,35 @@ Check that Strapi successfully connected to PostgreSQL:
 - Update: ❌
 - Delete: ❌
 
-**For Categories:**
+**For Tournaments:**
+- Create: ❌
+- Find: ❌ (private - requires JWT authentication)
+- FindOne: ❌ (private - requires JWT authentication)
+- Update: ❌
+- Delete: ❌
+
+**For CustomCodes:**
+- Create: ❌
+- Find: ❌ (private - requires JWT authentication)
+- FindOne: ❌ (private - requires JWT authentication)
+- Update: ❌
+- Delete: ❌
+
+**For Creators:**
+- Create: ❌
+- Find: ❌ (private - requires JWT authentication)
+- FindOne: ❌ (private - requires JWT authentication)
+- Update: ❌
+- Delete: ❌
+
+**For Rules:**
+- Create: ❌
+- Find: ❌ (private - requires JWT authentication)
+- FindOne: ❌ (private - requires JWT authentication)
+- Update: ❌
+- Delete: ❌
+
+**For FAQs:**
 - Create: ❌
 - Find: ❌ (private - requires JWT authentication)
 - FindOne: ❌ (private - requires JWT authentication)
@@ -440,10 +480,38 @@ Check that Strapi successfully connected to PostgreSQL:
 - Update: ❌
 - Delete: ❌
 
-**For Categories:**
+**For Tournaments:**
 - Create: ❌
-- Find: ✅ (frontend can query categories)
-- FindOne: ✅ (frontend can view individual categories)
+- Find: ✅ (frontend can query tournaments)
+- FindOne: ✅ (frontend can view individual tournaments)
+- Update: ❌
+- Delete: ❌
+
+**For CustomCodes:**
+- Create: ❌
+- Find: ✅ (frontend can query custom codes)
+- FindOne: ✅ (frontend can view individual custom codes)
+- Update: ❌
+- Delete: ❌
+
+**For Creators:**
+- Create: ❌
+- Find: ✅ (frontend can query creators)
+- FindOne: ✅ (frontend can view individual creators)
+- Update: ❌
+- Delete: ❌
+
+**For Rules:**
+- Create: ❌
+- Find: ✅ (frontend can query rules)
+- FindOne: ✅ (frontend can view individual rules)
+- Update: ❌
+- Delete: ❌
+
+**For FAQs:**
+- Create: ❌
+- Find: ✅ (frontend can query FAQs)
+- FindOne: ✅ (frontend can view individual FAQs)
 - Update: ❌
 - Delete: ❌
 
@@ -542,7 +610,7 @@ npm run develop
 # Test anonymous submission endpoint (should work)
 curl -X POST http://localhost:1337/api/submissions \
   -H "Content-Type: application/json" \
-  -d '{"data": {"runner_name": "Test Runner", "time": "00:15:30"}}'
+  -d '{"data": {"runner": "Test Runner", "result": "00:15:30", "note": "Test submission"}}'
 
 # Test public API access to challenges (should be denied)
 curl http://localhost:1337/api/challenges
@@ -552,6 +620,16 @@ curl http://localhost:1337/api/challenges
 curl http://localhost:1337/api/challenges \
   -H "Authorization: Bearer strapi_abcd1234your_generated_token_here"
 # Should return challenges data when using valid JWT token
+
+# Test other content types with authentication
+curl http://localhost:1337/api/tournaments \
+  -H "Authorization: Bearer strapi_abcd1234your_generated_token_here"
+
+curl http://localhost:1337/api/custom-codes \
+  -H "Authorization: Bearer strapi_abcd1234your_generated_token_here"
+
+curl http://localhost:1337/api/creators \
+  -H "Authorization: Bearer strapi_abcd1234your_generated_token_here"
 
 # Test admin API (requires authentication)
 curl http://localhost:1337/admin/users/me

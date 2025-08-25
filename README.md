@@ -36,14 +36,14 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **URL Validation**: Automated validation and metadata extraction
 - **Performance Optimized**: No media processing or storage overhead
 
-### Content Types (Planned)
+### Content Types (Implemented)
 - **Challenge**: Main challenge definitions with rules, custom code, and metadata
-- **Submission**: Anonymous run submissions with validation and moderation workflow
+- **Submission**: Anonymous run submissions with validation and moderation workflow  
 - **Tournament**: Tournament structures and participant management
-- **CustomCode**: Reusable custom game configuration codes
-- **Rule**: Modular rule definitions for challenges
-- **Creator**: Challenge creator profiles with social media links
-- **FAQ**: Frequently asked questions with challenge associations
+- **CustomCode**: Reusable custom game configuration codes with unique constraints
+- **Rule**: Modular rule definitions with many-to-many challenge relationships
+- **Creator**: Challenge creator profiles with social media links and slug identification
+- **FAQ**: Frequently asked questions with multi-entity associations (challenges, custom codes, tournaments)
 
 ## Setup and Development
 
@@ -99,10 +99,12 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 │   ├── src/
 │   │   ├── api/            # Business logic per API
 │   │   │   ├── challenge/  # Challenge-related endpoints
-│   │   │   ├── category/   # Challenge categories
-│   │   │   ├── tournament/ # Tournament management
-│   │   │   ├── submission/ # Run submissions
-│   │   │   └── leaderboard/ # Ranking and scores
+│   │   │   ├── creator/    # Creator profiles and attribution
+│   │   │   ├── custom-code/ # Custom game configuration codes
+│   │   │   ├── faq/        # Frequently asked questions
+│   │   │   ├── rule/       # Modular challenge rules  
+│   │   │   ├── submission/ # Anonymous run submissions
+│   │   │   └── tournament/ # Tournament management
 │   │   ├── components/     # Reusable content components
 │   │   ├── extensions/     # Plugin extensions
 │   │   ├── middlewares/    # Custom middleware

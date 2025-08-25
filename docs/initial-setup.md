@@ -313,7 +313,7 @@ Before starting the Strapi server, plan your content-types based on the project 
 2. **Category** (Collection Type)
    - Fields:
      - name (Text)
-     - description (Text)
+     - description (Rich text (Blocks))
      - slug (UID, targetField: name)
      - icon (Text)
    - Relations:
@@ -342,15 +342,17 @@ Before starting the Strapi server, plan your content-types based on the project 
      - status (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
    - Relations:
      - challenges (Relation: Many to Many with Challenge)
+     - creators (Relation: Many to Many with Creator)
 
 5. **CustomCode** (Collection Type)
    - Fields:
      - name (Text)
      - code (Text)
-     - description (Text)
+     - description (Rich text (Blocks))
      - slug (UID, targetField: name)
    - Relations:
      - challenge (Relation: One to One with Challenge)
+     - creators (Relation: Many to Many with Creator)
 
 6. **Rule** (Collection Type)
    - Fields:

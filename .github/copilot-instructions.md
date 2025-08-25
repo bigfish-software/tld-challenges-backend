@@ -122,7 +122,7 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
   - Fields: title (Text), description (Rich text (Blocks)), difficulty (Enumeration), slug (UID), created_date (Date), updated_date (Date)
   - Relations: category (Many to One with Category), submissions (One to Many with Submission), custom_code (One to One with CustomCode), rules (One to Many with Rule), tournaments (Many to Many with Tournament), creators (Many to Many with Creator)
 - **Category**: Challenge categorization and organization
-  - Fields: name (Text), description (Text), slug (UID), icon (Text)
+  - Fields: name (Text), description (Rich text (Blocks)), slug (UID), icon (Text)
   - Relations: challenges (One to Many with Challenge)
 - **Submission**: Anonymous user run submissions with validation, external media links, and moderation workflow
   - Fields: runner (Text), runner_url (Text), video_url (Text), notes (Text), status (Enumeration), result (Text), submitted_date (Date)
@@ -130,10 +130,10 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
   - Special: Draft/Publish enabled for moderation
 - **Tournament**: Tournament structures and participant management
   - Fields: name (Text), description (Rich text (Blocks)), slug (UID), start_date (Date), end_date (Date), status (Enumeration)
-  - Relations: challenges (Many to Many with Challenge)
+  - Relations: challenges (Many to Many with Challenge), creators (Many to Many with Creator)
 - **CustomCode**: Reusable custom game configuration codes
-  - Fields: name (Text), code (Text), description (Text), slug (UID)
-  - Relations: challenge (One to One with Challenge)
+  - Fields: name (Text), code (Text), description (Rich text (Blocks)), slug (UID)
+  - Relations: challenge (One to One with Challenge), creators (Many to Many with Creator)
 - **Rule**: Modular rule definitions for challenges
   - Fields: description (Rich text (Blocks))
   - Relations: challenge (Many to One with Challenge)

@@ -120,26 +120,23 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 #### 8. Key Content-Types (Planned)
 - **Challenge**: Main challenge definitions with rules, custom code, and metadata
   - Fields: name (Text), description (Rich text (Blocks)), difficulty (Enumeration), slug (UID), created_date (Date), updated_date (Date)
-  - Relations: category (Many to One with Category), submissions (One to Many with Submission), custom_code (One to One with CustomCode), rules (One to Many with Rule), tournaments (Many to Many with Tournament), creators (Many to Many with Creator)
-- **Category**: Challenge categorization and organization
-  - Fields: name (Text), description (Rich text (Blocks)), slug (UID), icon (Text)
-  - Relations: challenges (One to Many with Challenge)
+  - Relations: submissions (One to Many with Submission), custom_code (One to One with CustomCode), rules (One to Many with Rule), tournaments (Many to Many with Tournament), creators (Many to Many with Creator)
 - **Submission**: Anonymous user run submissions with validation, external media links, and moderation workflow
   - Fields: runner (Text), runner_url (Text), video_url (Text), notes (Text), status (Enumeration), result (Text), submitted_date (Date)
   - Relations: challenge (Many to One with Challenge)
   - Special: Draft/Publish enabled for moderation
 - **Tournament**: Tournament structures and participant management
-  - Fields: name (Text), description (Rich text (Blocks)), slug (UID), start_date (Date), end_date (Date), status (Enumeration)
+  - Fields: name (Text), description (Rich text (Blocks)), slug (UID), start_date (Date), end_date (Date), status (Enumeration), created_date (Date), updated_date (Date)
   - Relations: challenges (Many to Many with Challenge), creators (Many to Many with Creator)
 - **CustomCode**: Reusable custom game configuration codes
-  - Fields: name (Text), code (Text), description (Rich text (Blocks)), slug (UID)
+  - Fields: name (Text), code (Text), description (Rich text (Blocks)), slug (UID), created_date (Date), updated_date (Date)
   - Relations: challenge (One to One with Challenge), creators (Many to Many with Creator)
 - **Rule**: Modular rule definitions for challenges
   - Fields: description (Rich text (Blocks))
   - Relations: challenge (Many to One with Challenge)
 - **Creator**: Challenge creator profiles with social media links
   - Fields: name (Text), twitch (Text), youtube (Text)
-  - Relations: challenges (Many to Many with Challenge)
+  - Relations: challenges (Many to Many with Challenge), tournaments (Many to Many with Tournament), custom_codes (Many to Many with CustomCode)
 - **FAQ**: Frequently asked questions with challenge associations
   - Fields: question (Text), answer (Rich text (Blocks))
   - Relations: challenges (Many to Many with Challenge)
@@ -148,7 +145,7 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Leaderboard Logic**: Complex ranking calculations in custom services
 - **Submission Validation**: Business rules for run verification
 - **Tournament Management**: Bracket and scoring systems
-- **Content Filtering**: Category-based content organization
+- **Challenge Organization**: Content organization without categories (challenges can be filtered by difficulty, creator, or other attributes)
 - **Media Validation**: URL validation and metadata extraction for external video/image links
 
 #### 10. Frontend-Backend Communication & Security

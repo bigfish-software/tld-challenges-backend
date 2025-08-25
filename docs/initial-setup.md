@@ -298,28 +298,18 @@ Before starting the Strapi server, plan your content-types based on the project 
    - Fields: 
      - name (Text)
      - description (Rich text (Blocks))
-     - difficulty (Enumeration: "Beginner", "Intermediate", "Advanced", "Expert")
-     - slug (UID, targetField: title)
+     - difficulty (Enumeration: "Pilgrim", "Voyager", "Stalker", "Interloper", "Misery", "Custom")
+     - slug (UID, targetField: name)
      - created_date (Date)
      - updated_date (Date)
    - Relations: 
-     - category (Relation: Many to One with Category)
      - submissions (Relation: One to Many with Submission)
      - custom_code (Relation: One to One with CustomCode)
      - rules (Relation: One to Many with Rule)
      - tournaments (Relation: Many to Many with Tournament)
      - creators (Relation: Many to Many with Creator)
 
-2. **Category** (Collection Type)
-   - Fields:
-     - name (Text)
-     - description (Rich text (Blocks))
-     - slug (UID, targetField: name)
-     - icon (Text)
-   - Relations:
-     - challenges (Relation: One to Many with Challenge)
-
-3. **Submission** (Collection Type)
+2. **Submission** (Collection Type)
    - Fields:
      - runner (Text)
      - runner_url (Text)
@@ -332,7 +322,7 @@ Before starting the Strapi server, plan your content-types based on the project 
      - challenge (Relation: Many to One with Challenge)
    - Special: Draft/Publish enabled for moderation
 
-4. **Tournament** (Collection Type)
+3. **Tournament** (Collection Type)
    - Fields:
      - name (Text)
      - description (Rich text (Blocks))
@@ -340,35 +330,41 @@ Before starting the Strapi server, plan your content-types based on the project 
      - start_date (Date)
      - end_date (Date)
      - status (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
+     - created_date (Date)
+     - updated_date (Date)
    - Relations:
      - challenges (Relation: Many to Many with Challenge)
      - creators (Relation: Many to Many with Creator)
 
-5. **CustomCode** (Collection Type)
+4. **CustomCode** (Collection Type)
    - Fields:
      - name (Text)
      - code (Text)
      - description (Rich text (Blocks))
      - slug (UID, targetField: name)
+     - created_date (Date)
+     - updated_date (Date)
    - Relations:
      - challenge (Relation: One to One with Challenge)
      - creators (Relation: Many to Many with Creator)
 
-6. **Rule** (Collection Type)
+5. **Rule** (Collection Type)
    - Fields:
      - description (Rich text (Blocks))
    - Relations:
      - challenge (Relation: Many to One with Challenge)
 
-7. **Creator** (Collection Type)
+6. **Creator** (Collection Type)
    - Fields:
      - name (Text)
      - twitch (Text)
      - youtube (Text)
    - Relations:
      - challenges (Relation: Many to Many with Challenge)
+     - tournaments (Relation: Many to Many with Tournament)
+     - custom_codes (Relation: Many to Many with CustomCode)
 
-8. **FAQ** (Collection Type)
+7. **FAQ** (Collection Type)
    - Fields:
      - question (Text)
      - answer (Rich text (Blocks))

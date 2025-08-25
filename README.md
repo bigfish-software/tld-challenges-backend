@@ -38,7 +38,6 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 
 ### Content Types (Planned)
 - **Challenge**: Main challenge definitions with rules, custom code, and metadata
-- **Category**: Challenge categorization and organization  
 - **Submission**: Anonymous run submissions with validation and moderation workflow
 - **Tournament**: Tournament structures and participant management
 - **CustomCode**: Reusable custom game configuration codes

@@ -25,6 +25,8 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 
 ### Anonymous Submission System
 - **No User Management**: Submissions work like contact forms - no authentication required
+- **Long-lived JWT Frontend Token**: Frontend uses a single environment-configured JWT token
+- **Unified Rate Limiting**: Same rate limits apply to all API endpoints for simplified management
 - **Security First**: Built-in rate limiting and DDOS protection
 - **Moderation Workflow**: All submissions start as drafts requiring admin approval
 - **IP Tracking**: Prevents spam and enforces submission limits
@@ -107,7 +109,8 @@ src/
 
 ### Rate Limiting
 - Built-in Strapi rate limiting middleware
-- IP + endpoint + user tracking
+- Unified limits for all endpoints (anonymous submissions and authenticated queries)
+- IP + endpoint tracking for single frontend consumer
 - Configurable limits per endpoint type
 - DDOS protection for submission endpoints
 
@@ -165,6 +168,7 @@ src/
 ### Frontend Communication
 - RESTful API endpoints with JSON responses
 - Public endpoints for submissions (no auth required)
+- Long-lived JWT token for authenticated content queries (single frontend consumer)
 - Admin endpoints for content management
 
 ## Deployment Strategy
@@ -188,6 +192,9 @@ APP_KEYS=your-app-keys-here
 API_TOKEN_SALT=your-api-token-salt
 ADMIN_JWT_SECRET=your-admin-jwt-secret
 TRANSFER_TOKEN_SALT=your-transfer-token-salt
+
+# Frontend Integration
+FRONTEND_API_TOKEN=your-long-lived-jwt-token
 ```
 
 ### Production Considerations
@@ -216,11 +223,12 @@ TRANSFER_TOKEN_SALT=your-transfer-token-salt
 ### Development Priorities
 1. **Content-Type First**: Define data structure through Strapi admin before coding
 2. **API Extension**: Customize generated endpoints for complex business logic
-3. **Validation Layer**: Implement robust data validation in lifecycle hooks
-4. **Security Implementation**: Configure rate limiting, input sanitization, and abuse prevention
-5. **Moderation Workflow**: Set up draft/publish system for submission approval process
-6. **Performance**: Optimize queries for leaderboard and submission listing
-7. **Anonymous Access**: Configure proper permissions for public submission endpoints
+3. **Frontend Token Setup**: Configure long-lived JWT token for single frontend consumer
+4. **Validation Layer**: Implement robust custom validation in middleware and business logic
+5. **Security Implementation**: Configure unified rate limiting, input sanitization, and abuse prevention
+6. **Moderation Workflow**: Set up draft/publish system for submission approval process
+7. **Performance**: Optimize queries for leaderboard and submission listing
+8. **Anonymous Submission Endpoints**: Configure public submission creation with private read access
 
 ### Code Quality Standards
 - TypeScript strict mode enabled

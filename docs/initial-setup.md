@@ -315,7 +315,7 @@ Before starting the Strapi server, plan your content-types based on the project 
      - runner_url (Text)
      - video_url (Text)
      - notes (Text)
-     - status (Enumeration: "pending", "approved", "rejected", default: "pending")
+     - state (Enumeration: "pending", "approved", "rejected", default: "pending")
      - result (Text)
      - submitted_date (Date)
    - Relations:
@@ -329,7 +329,7 @@ Before starting the Strapi server, plan your content-types based on the project 
      - slug (UID, targetField: name)
      - start_date (Date)
      - end_date (Date)
-     - status (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
+     - state (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
      - created_date (Date)
      - updated_date (Date)
    - Relations:

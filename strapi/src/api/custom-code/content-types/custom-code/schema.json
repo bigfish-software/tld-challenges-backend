@@ -33,6 +33,24 @@
     },
     "updated_date": {
       "type": "datetime"
+    },
+    "creators": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::creator.creator",
+      "mappedBy": "custom_codes"
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::faq.faq",
+      "inversedBy": "custom_codes"
+    },
+    "challenges": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::challenge.challenge",
+      "mappedBy": "custom_code"
     }
   }
 }

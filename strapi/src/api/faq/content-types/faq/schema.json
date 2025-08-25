@@ -18,6 +18,24 @@
     "answer": {
       "type": "blocks",
       "required": true
+    },
+    "challenges": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::challenge.challenge",
+      "mappedBy": "faqs"
+    },
+    "custom_codes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::custom-code.custom-code",
+      "mappedBy": "faqs"
+    },
+    "tournaments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tournament.tournament",
+      "inversedBy": "faqs"
     }
   }
 }

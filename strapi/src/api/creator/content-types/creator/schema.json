@@ -21,6 +21,29 @@
     },
     "youtube": {
       "type": "string"
+    },
+    "tournaments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tournament.tournament",
+      "inversedBy": "creators"
+    },
+    "custom_codes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::custom-code.custom-code",
+      "inversedBy": "creators"
+    },
+    "challenges": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::challenge.challenge",
+      "mappedBy": "creators"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
     }
   }
 }

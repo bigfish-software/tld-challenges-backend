@@ -14,6 +14,12 @@
     "description": {
       "type": "blocks",
       "required": true
+    },
+    "challenges": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::challenge.challenge",
+      "mappedBy": "rules"
     }
   }
 }

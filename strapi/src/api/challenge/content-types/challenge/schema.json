@@ -41,6 +41,42 @@
     },
     "updated_date": {
       "type": "datetime"
+    },
+    "submissions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::submission.submission",
+      "mappedBy": "challenge"
+    },
+    "creators": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::creator.creator",
+      "inversedBy": "challenges"
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::faq.faq",
+      "inversedBy": "challenges"
+    },
+    "custom_code": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::custom-code.custom-code",
+      "inversedBy": "challenges"
+    },
+    "rules": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::rule.rule",
+      "inversedBy": "challenges"
+    },
+    "tournament": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tournament.tournament",
+      "inversedBy": "challenges"
     }
   }
 }

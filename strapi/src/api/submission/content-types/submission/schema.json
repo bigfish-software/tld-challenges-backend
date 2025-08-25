@@ -39,6 +39,12 @@
         "approved",
         "rejected"
       ]
+    },
+    "challenge": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::challenge.challenge",
+      "inversedBy": "submissions"
     }
   }
 }

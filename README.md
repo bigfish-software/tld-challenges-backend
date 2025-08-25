@@ -37,12 +37,14 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Performance Optimized**: No media processing or storage overhead
 
 ### Content Types (Planned)
-- **Challenge**: Main challenge definitions with rules and metadata
-- **Category**: Challenge categorization and organization
-- **Submission**: Anonymous run submissions with validation and moderation
+- **Challenge**: Main challenge definitions with rules, custom code, and metadata
+- **Category**: Challenge categorization and organization  
+- **Submission**: Anonymous run submissions with validation and moderation workflow
 - **Tournament**: Tournament structures and participant management
-- **User**: Extended profiles for community features (admin-only)
-- **Setting**: Custom game configuration codes
+- **CustomCode**: Reusable custom game configuration codes
+- **Rule**: Modular rule definitions for challenges
+- **Creator**: Challenge creator profiles with social media links
+- **FAQ**: Frequently asked questions with challenge associations
 
 ## Setup and Development
 
@@ -57,7 +59,7 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 1. **Clone and Install**
    ```bash
    git clone https://github.com/bigfish-software/tld-challenges-backend.git
-   cd tld-challenges-backend
+   cd tld-challenges-backend/strapi
    npm install
    ```
 
@@ -81,6 +83,7 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 
 4. **Start Development Server**
    ```bash
+   # From the strapi directory
    npm run develop
    ```
 
@@ -91,18 +94,27 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 ### Project Structure
 
 ```
-src/
-├── api/                    # Business logic per API
-│   ├── challenge/         # Challenge-related endpoints
-│   ├── category/          # Challenge categories
-│   ├── tournament/        # Tournament management
-│   ├── submission/        # Run submissions
-│   └── leaderboard/       # Ranking and scores
-├── components/            # Reusable content components
-├── extensions/            # Plugin extensions
-├── middlewares/           # Custom middleware
-├── plugins/               # Local plugins
-└── policies/              # Access control policies
+/
+├── docs/                   # Setup guides and documentation
+├── strapi/                 # Strapi CMS application
+│   ├── src/
+│   │   ├── api/            # Business logic per API
+│   │   │   ├── challenge/  # Challenge-related endpoints
+│   │   │   ├── category/   # Challenge categories
+│   │   │   ├── tournament/ # Tournament management
+│   │   │   ├── submission/ # Run submissions
+│   │   │   └── leaderboard/ # Ranking and scores
+│   │   ├── components/     # Reusable content components
+│   │   ├── extensions/     # Plugin extensions
+│   │   ├── middlewares/    # Custom middleware
+│   │   ├── plugins/        # Local plugins
+│   │   └── policies/       # Access control policies
+│   ├── config/             # Strapi configuration
+│   ├── database/           # Database files
+│   └── types/              # TypeScript type definitions
+├── .github/                # GitHub workflows and templates
+├── README.md               # Project documentation
+└── LICENSE                 # License file
 ```
 
 ## Security Implementation
@@ -135,9 +147,9 @@ src/
 4. Customize endpoints in controllers if needed
 
 ### Custom Endpoint Development
-- **Controllers**: `src/api/[entity]/controllers/`
-- **Services**: `src/api/[entity]/services/`
-- **Routes**: `src/api/[entity]/routes/`
+- **Controllers**: `strapi/src/api/[entity]/controllers/`
+- **Services**: `strapi/src/api/[entity]/services/`
+- **Routes**: `strapi/src/api/[entity]/routes/`
 - **Lifecycle Hooks**: Validation and processing in content-type lifecycle functions
 
 ### Anonymous Submission Security

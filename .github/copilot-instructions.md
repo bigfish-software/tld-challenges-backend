@@ -65,18 +65,26 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 
 #### 2. Project Structure (TypeScript-based)
 ```
-src/
-├── api/                    # Business logic per API
-│   ├── challenge/         # Challenge-related endpoints
-│   ├── category/          # Challenge categories
-│   ├── tournament/        # Tournament management
-│   ├── submission/        # Run submissions
-│   └── leaderboard/       # Ranking and scores
-├── components/            # Reusable content components
-├── extensions/            # Plugin extensions
-├── middlewares/           # Custom middleware
-├── plugins/               # Local plugins
-└── policies/              # Access control policies
+/
+├── docs/                   # Setup guides and documentation
+├── strapi/                 # Strapi CMS application
+│   ├── src/
+│   │   ├── api/            # Business logic per API
+│   │   │   ├── challenge/  # Challenge-related endpoints
+│   │   │   ├── category/   # Challenge categories
+│   │   │   ├── tournament/ # Tournament management
+│   │   │   ├── submission/ # Run submissions
+│   │   │   └── leaderboard/ # Ranking and scores
+│   │   ├── components/     # Reusable content components
+│   │   ├── extensions/     # Plugin extensions
+│   │   ├── middlewares/    # Custom middleware
+│   │   ├── plugins/        # Local plugins
+│   │   └── policies/       # Access control policies
+│   ├── config/             # Strapi configuration
+│   ├── database/           # Database files
+│   └── types/              # TypeScript type definitions
+├── .github/                # GitHub workflows and templates
+└── README.md               # Project documentation
 ```
 
 #### 3. Data Model Approach
@@ -86,9 +94,9 @@ src/
 - **External Media Links**: Store metadata and URLs to YouTube/Twitch content, no local media storage
 
 #### 4. API Development Patterns
-- **Controller Extensions**: Customize endpoints in `src/api/[entity]/controllers/`
-- **Service Layer**: Business logic in `src/api/[entity]/services/`
-- **Route Customization**: Custom routes in `src/api/[entity]/routes/`
+- **Controller Extensions**: Customize endpoints in `strapi/src/api/[entity]/controllers/`
+- **Service Layer**: Business logic in `strapi/src/api/[entity]/services/`
+- **Route Customization**: Custom routes in `strapi/src/api/[entity]/routes/`
 - **Lifecycle Hooks**: Data validation and processing in content-type lifecycle functions
 
 #### 5. Integration Points
@@ -98,7 +106,7 @@ src/
 - **External Media**: Store YouTube/Twitch URLs and metadata, no file upload handling for submissions
 
 #### 6. Development Environment
-- **Local Setup**: `npm run develop` for hot-reloading development server
+- **Local Setup**: `npm run develop` from strapi directory for hot-reloading development server
 - **Admin Panel**: Available at `http://localhost:1337/admin` for content management
 - **API Testing**: Endpoints available at `http://localhost:1337/api/`
 - **Database Integration**: Connects to `tld-challenges-db` container via shared Docker network
@@ -110,12 +118,31 @@ src/
 - **External Assets**: No media storage requirements, only URL references to external platforms
 
 #### 8. Key Content-Types (Planned)
-- **Challenge**: Main challenge definitions with rules and metadata
+- **Challenge**: Main challenge definitions with rules, custom code, and metadata
+  - Fields: title (Text), description (Rich text (Blocks)), difficulty (Enumeration), slug (UID), created_date (Date), updated_date (Date)
+  - Relations: category (Many to One with Category), submissions (One to Many with Submission), custom_code (One to One with CustomCode), rules (One to Many with Rule), tournaments (Many to Many with Tournament), creators (Many to Many with Creator)
 - **Category**: Challenge categorization and organization
+  - Fields: name (Text), description (Text), slug (UID), icon (Text)
+  - Relations: challenges (One to Many with Challenge)
 - **Submission**: Anonymous user run submissions with validation, external media links, and moderation workflow
+  - Fields: runner (Text), runner_url (Text), video_url (Text), notes (Text), status (Enumeration), result (Text), submitted_date (Date)
+  - Relations: challenge (Many to One with Challenge)
+  - Special: Draft/Publish enabled for moderation
 - **Tournament**: Tournament structures and participant management
-- **User**: Extended user profiles for community features (admin-only)
-- **Setting**: Custom game configuration codes
+  - Fields: name (Text), description (Rich text (Blocks)), start_date (Date), end_date (Date), status (Enumeration)
+  - Relations: challenges (Many to Many with Challenge)
+- **CustomCode**: Reusable custom game configuration codes
+  - Fields: name (Text), code (Text), description (Text)
+  - Relations: challenge (One to One with Challenge)
+- **Rule**: Modular rule definitions for challenges
+  - Fields: description (Rich text (Blocks))
+  - Relations: challenge (Many to One with Challenge)
+- **Creator**: Challenge creator profiles with social media links
+  - Fields: name (Text), twitch (Text), youtube (Text)
+  - Relations: challenges (Many to Many with Challenge)
+- **FAQ**: Frequently asked questions with challenge associations
+  - Fields: question (Text), answer (Rich text (Blocks))
+  - Relations: challenges (Many to Many with Challenge)
 
 #### 9. API Customization Focus Areas
 - **Leaderboard Logic**: Complex ranking calculations in custom services

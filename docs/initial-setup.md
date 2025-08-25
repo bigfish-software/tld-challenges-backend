@@ -73,15 +73,16 @@ docker ps
 ### 2.1 Navigate to Backend Directory
 ```bash
 # Return to lab directory
-cd c:\develop\BigFishSoftware\lab
+cd c:\develop\BigFishSoftware\lab\tld-challenges-backend
 
-# Create backend project directory
-cd tld-challenges-backend
+# Create Strapi subdirectory for the actual Strapi project
+mkdir strapi
+cd strapi
 ```
 
 ### 2.2 Initialize Strapi Project
 ```bash
-# Create Strapi project with TypeScript and PostgreSQL
+# Create Strapi project with TypeScript and PostgreSQL in the current directory
 npx create-strapi@latest . --quickstart --typescript --skip-cloud
 
 # When prompted, choose:
@@ -91,28 +92,53 @@ npx create-strapi@latest . --quickstart --typescript --skip-cloud
 ```
 
 ### 2.3 Configure Database Connection
-Create or update `config/database.ts`:
+**Replace** the generated `config/database.ts` with PostgreSQL-only configuration:
+
 ```typescript
 export default ({ env }) => ({
   connection: {
     client: 'postgres',
     connection: {
+      connectionString: env('DATABASE_URL'),
       host: env('DATABASE_HOST', 'localhost'),
       port: env.int('DATABASE_PORT', 5432),
       database: env('DATABASE_NAME', 'tld_challenges'),
-      user: env('DATABASE_USERNAME', 'strapi'),
+      user: env('DATABASE_USERNAME', 'cms'),
       password: env('DATABASE_PASSWORD', ''),
-      ssl: env.bool('DATABASE_SSL', false),
+      ssl: env.bool('DATABASE_SSL', false) && {
+        key: env('DATABASE_SSL_KEY', undefined),
+        cert: env('DATABASE_SSL_CERT', undefined),
+        ca: env('DATABASE_SSL_CA', undefined),
+        capath: env('DATABASE_SSL_CAPATH', undefined),
+        cipher: env('DATABASE_SSL_CIPHER', undefined),
+        rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', true),
+      },
+      schema: env('DATABASE_SCHEMA', 'public'),
     },
+    pool: { 
+      min: env.int('DATABASE_POOL_MIN', 2), 
+      max: env.int('DATABASE_POOL_MAX', 10) 
+    },
+    acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     debug: false,
   },
 });
 ```
 
+> **Note**: Strapi generates a multi-database template by default. We replace it with PostgreSQL-only configuration to eliminate unnecessary complexity and align with our project requirements.
+
 ## Step 3: Environment Configuration
 
 ### 3.1 Create Environment File
-Create `.env` file in the root directory:
+Copy the example file and configure your environment variables:
+```bash
+# Copy the example file
+cp .env.example .env
+
+# Edit .env with your actual values
+```
+
+Your `.env` file should contain:
 ```env
 # Server Configuration
 HOST=0.0.0.0
@@ -123,7 +149,7 @@ NODE_ENV=development
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 DATABASE_NAME=tld_challenges
-DATABASE_USERNAME=strapi
+DATABASE_USERNAME=cms
 DATABASE_PASSWORD=your_secure_password_here
 DATABASE_SSL=false
 
@@ -149,8 +175,10 @@ npx @strapi/generate-new
 # Copy the generated keys to your .env file
 ```
 
-### 3.3 Create Environment Template
-Create `.env.example`:
+> **Important**: Replace the placeholder values in your `.env` file with the generated keys.
+
+### 3.3 Environment Template Reference
+The `.env.example` file is provided as a reference with the following structure:
 ```env
 # Server Configuration
 HOST=0.0.0.0
@@ -166,11 +194,12 @@ DATABASE_PASSWORD=your_database_password
 DATABASE_SSL=false
 
 # Strapi Security Keys
-APP_KEYS=generate-new-keys-for-production
-API_TOKEN_SALT=generate-new-salt
-ADMIN_JWT_SECRET=generate-new-secret
-TRANSFER_TOKEN_SALT=generate-new-salt
-JWT_SECRET=generate-new-secret
+APP_KEYS="toBeModified1,toBeModified2,toBeModified3,toBeModified4"
+API_TOKEN_SALT=tobemodified
+ADMIN_JWT_SECRET=tobemodified
+TRANSFER_TOKEN_SALT=tobemodified
+JWT_SECRET=tobemodified
+ENCRYPTION_KEY=tobemodified
 
 # Frontend API Token (Long-lived JWT for single frontend consumer)
 FRONTEND_API_TOKEN=your-long-lived-api-token-here
@@ -266,25 +295,81 @@ npm install --save-dev @types/validator
 Before starting the Strapi server, plan your content-types based on the project requirements:
 
 1. **Challenge** (Collection Type)
-   - Fields: title, description, rules, category, difficulty, settings
-   - Relations: category (many-to-one), submissions (one-to-many)
+   - Fields: 
+     - title (Text)
+     - description (Rich text (Blocks))
+     - difficulty (Enumeration: "Beginner", "Intermediate", "Advanced", "Expert")
+     - slug (UID, targetField: title)
+     - created_date (Date)
+     - updated_date (Date)
+   - Relations: 
+     - category (Relation: Many to One with Category)
+     - submissions (Relation: One to Many with Submission)
+     - custom_code (Relation: One to One with CustomCode)
+     - rules (Relation: One to Many with Rule)
+     - tournaments (Relation: Many to Many with Tournament)
+     - creators (Relation: Many to Many with Creator)
 
 2. **Category** (Collection Type)
-   - Fields: name, description, slug, icon
-   - Relations: challenges (one-to-many)
+   - Fields:
+     - name (Text)
+     - description (Text)
+     - slug (UID, targetField: name)
+     - icon (Text)
+   - Relations:
+     - challenges (Relation: One to Many with Challenge)
 
 3. **Submission** (Collection Type)
-   - Fields: runner_name, time, video_url, screenshot_url, notes, status
-   - Relations: challenge (many-to-one)
+   - Fields:
+     - runner (Text)
+     - runner_url (Text)
+     - video_url (Text)
+     - notes (Text)
+     - status (Enumeration: "pending", "approved", "rejected", default: "pending")
+     - result (Text)
+     - submitted_date (Date)
+   - Relations:
+     - challenge (Relation: Many to One with Challenge)
    - Special: Draft/Publish enabled for moderation
 
 4. **Tournament** (Collection Type)
-   - Fields: name, description, start_date, end_date, rules, status
-   - Relations: challenges (many-to-many)
+   - Fields:
+     - name (Text)
+     - description (Rich text (Blocks))
+     - start_date (Date)
+     - end_date (Date)
+     - status (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
+   - Relations:
+     - challenges (Relation: Many to Many with Challenge)
 
-5. **Setting** (Collection Type)
-   - Fields: name, code, description, game_version
-   - Relations: challenges (many-to-many)
+5. **CustomCode** (Collection Type)
+   - Fields:
+     - name (Text)
+     - code (Text)
+     - description (Text)
+   - Relations:
+     - challenge (Relation: One to One with Challenge)
+
+6. **Rule** (Collection Type)
+   - Fields:
+     - description (Rich text (Blocks))
+   - Relations:
+     - challenge (Relation: Many to One with Challenge)
+
+7. **Creator** (Collection Type)
+   - Fields:
+     - name (Text)
+     - twitch (Text)
+     - youtube (Text)
+   - Relations:
+     - challenges (Relation: Many to Many with Challenge)
+
+8. **FAQ** (Collection Type)
+   - Fields:
+     - question (Text)
+     - answer (Rich text (Blocks))
+   - Relations:
+     - challenges (Relation: Many to Many with Challenge)
 
 ## Step 7: First Startup and Admin Setup
 
@@ -478,7 +563,7 @@ curl http://localhost:1337/admin/users/me
 ### 12.1 Configure Rate Limiting
 Create custom middleware for unified rate limiting:
 ```bash
-# Create middleware directory structure
+# Create middleware directory structure (from strapi directory)
 mkdir -p src/middlewares
 
 # Rate limiting will apply uniformly to both anonymous submissions 

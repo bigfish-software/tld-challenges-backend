@@ -27,6 +27,12 @@
     "code": {
       "type": "string",
       "required": true
+    },
+    "created_date": {
+      "type": "datetime"
+    },
+    "updated_date": {
+      "type": "datetime"
     }
   }
 }

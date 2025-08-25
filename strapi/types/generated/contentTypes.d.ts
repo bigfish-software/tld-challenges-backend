@@ -503,6 +503,7 @@ export interface ApiCustomCodeCustomCode extends Struct.CollectionTypeSchema {
   };
   attributes: {
     code: Schema.Attribute.String & Schema.Attribute.Required;
+    created_date: Schema.Attribute.DateTime;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -518,6 +519,7 @@ export interface ApiCustomCodeCustomCode extends Struct.CollectionTypeSchema {
       Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updated_date: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

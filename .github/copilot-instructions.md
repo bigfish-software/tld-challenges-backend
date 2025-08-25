@@ -124,10 +124,13 @@ src/
 - **Content Filtering**: Category-based content organization
 - **Media Validation**: URL validation and metadata extraction for external video/image links
 
-#### 10. Anonymous Submission Security & Moderation
-- **No Authentication Required**: Submissions work like contact forms, no user accounts needed
-- **Rate Limiting**: Built-in Strapi rate limiting middleware to prevent DDOS attacks
-- **Input Validation**: Strict validation using Strapi's built-in validators and custom middleware
+#### 10. Frontend-Backend Communication & Security
+- **Long-lived JWT Token**: Frontend uses a single environment-configured JWT token for API access
+- **Anonymous Submissions**: Public submission endpoint allows anonymous run submissions (no user registration)
+- **Unified Rate Limiting**: Same rate limits apply to both anonymous submissions and authenticated queries
+- **API Access Control**: Frontend queries approved submissions via long-lived JWT token
+- **Single Consumer**: Only one frontend application consumes the API, no need for separate scopes
+- **Input Validation**: Strict validation using custom middleware and business logic
 - **Content Moderation**: Draft/Publish workflow where all submissions start as drafts requiring admin approval
 - **Security Middleware**: Custom middleware for sanitization and abuse prevention
 - **IP-based Protection**: Track submissions by IP to prevent spam and enforce rate limits
@@ -136,9 +139,10 @@ src/
 ### Development Priorities
 1. **Content-Type First**: Define data structure through Strapi admin before coding
 2. **API Extension**: Customize generated endpoints for complex business logic
-3. **Validation Layer**: Implement robust data validation in lifecycle hooks
-4. **Security Implementation**: Configure rate limiting, input sanitization, and abuse prevention
-5. **Moderation Workflow**: Set up draft/publish system for submission approval process
-6. **Performance**: Optimize queries for leaderboard and submission listing
-7. **Anonymous Access**: Configure proper permissions for public submission endpoints
+3. **Frontend Token Setup**: Configure long-lived JWT token for single frontend consumer
+4. **Validation Layer**: Implement robust data validation in custom middleware and business logic
+5. **Security Implementation**: Configure unified rate limiting, input sanitization, and abuse prevention
+6. **Moderation Workflow**: Set up draft/publish system for submission approval process
+7. **Performance**: Optimize queries for leaderboard and submission listing
+8. **Anonymous Submission Endpoints**: Configure public submission creation with private read access
 

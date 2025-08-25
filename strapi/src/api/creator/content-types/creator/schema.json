@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "creators",
+  "info": {
+    "singularName": "creator",
+    "pluralName": "creators",
+    "displayName": "Creator"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "twitch": {
+      "type": "string"
+    },
+    "youtube": {
+      "type": "string"
+    }
+  }
+}

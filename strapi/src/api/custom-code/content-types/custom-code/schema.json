@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "custom_codes",
+  "info": {
+    "singularName": "custom-code",
+    "pluralName": "custom-codes",
+    "displayName": "Custom Code"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -447,6 +447,39 @@ export interface ApiCreatorCreator extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCustomCodeCustomCode extends Struct.CollectionTypeSchema {
+  collectionName: 'custom_codes';
+  info: {
+    displayName: 'Custom Code';
+    pluralName: 'custom-codes';
+    singularName: 'custom-code';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    code: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::custom-code.custom-code'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
@@ -1009,6 +1042,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::category.category': ApiCategoryCategory;
       'api::creator.creator': ApiCreatorCreator;
+      'api::custom-code.custom-code': ApiCustomCodeCustomCode;
       'api::faq.faq': ApiFaqFaq;
       'api::rule.rule': ApiRuleRule;
       'plugin::content-releases.release': PluginContentReleasesRelease;

@@ -119,7 +119,7 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 
 #### 8. Key Content-Types (Planned)
 - **Challenge**: Main challenge definitions with rules, custom code, and metadata
-  - Fields: title (Text), description (Rich text (Blocks)), difficulty (Enumeration), slug (UID), created_date (Date), updated_date (Date)
+  - Fields: name (Text), description (Rich text (Blocks)), difficulty (Enumeration), slug (UID), created_date (Date), updated_date (Date)
   - Relations: category (Many to One with Category), submissions (One to Many with Submission), custom_code (One to One with CustomCode), rules (One to Many with Rule), tournaments (Many to Many with Tournament), creators (Many to Many with Creator)
 - **Category**: Challenge categorization and organization
   - Fields: name (Text), description (Rich text (Blocks)), slug (UID), icon (Text)

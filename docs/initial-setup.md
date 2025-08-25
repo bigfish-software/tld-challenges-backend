@@ -296,7 +296,7 @@ Before starting the Strapi server, plan your content-types based on the project 
 
 1. **Challenge** (Collection Type)
    - Fields: 
-     - title (Text)
+     - name (Text)
      - description (Rich text (Blocks))
      - difficulty (Enumeration: "Beginner", "Intermediate", "Advanced", "Expert")
      - slug (UID, targetField: title)

@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "challenges",
+  "info": {
+    "singularName": "challenge",
+    "pluralName": "challenges",
+    "displayName": "Challenge"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "difficulty": {
+      "type": "enumeration",
+      "default": "Custom",
+      "enum": [
+        "Pilgrim",
+        "Voyager",
+        "Stalker",
+        "Interloper",
+        "Misery",
+        "Nogoa",
+        "Custom"
+      ]
+    },
+    "created_date": {
+      "type": "datetime"
+    },
+    "updated_date": {
+      "type": "datetime"
+    }
+  }
+}

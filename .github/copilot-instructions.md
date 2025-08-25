@@ -129,10 +129,10 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
   - Relations: challenge (Many to One with Challenge)
   - Special: Draft/Publish enabled for moderation
 - **Tournament**: Tournament structures and participant management
-  - Fields: name (Text), description (Rich text (Blocks)), start_date (Date), end_date (Date), status (Enumeration)
+  - Fields: name (Text), description (Rich text (Blocks)), slug (UID), start_date (Date), end_date (Date), status (Enumeration)
   - Relations: challenges (Many to Many with Challenge)
 - **CustomCode**: Reusable custom game configuration codes
-  - Fields: name (Text), code (Text), description (Text)
+  - Fields: name (Text), code (Text), description (Text), slug (UID)
   - Relations: challenge (One to One with Challenge)
 - **Rule**: Modular rule definitions for challenges
   - Fields: description (Rich text (Blocks))

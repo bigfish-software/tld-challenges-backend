@@ -336,6 +336,7 @@ Before starting the Strapi server, plan your content-types based on the project 
    - Fields:
      - name (Text)
      - description (Rich text (Blocks))
+     - slug (UID, targetField: name)
      - start_date (Date)
      - end_date (Date)
      - status (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
@@ -347,6 +348,7 @@ Before starting the Strapi server, plan your content-types based on the project 
      - name (Text)
      - code (Text)
      - description (Text)
+     - slug (UID, targetField: name)
    - Relations:
      - challenge (Relation: One to One with Challenge)
 

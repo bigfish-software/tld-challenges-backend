@@ -250,6 +250,17 @@ FRONTEND_API_TOKEN=your-long-lived-jwt-token
 - Security-first approach
 - Performance optimization for public endpoints
 
+## Documentation
+
+### Setup and Configuration
+- **[Initial Setup Guide](docs/initial-setup.md)** - Complete step-by-step setup instructions
+- **[Implementation Notes](docs/implementation-notes.md)** - Key architectural decisions and changes
+- **[Object Relation Model](docs/orm.md)** - Comprehensive data model visualization and specifications
+
+### Development Resources
+- **[Strapi Documentation](https://docs.strapi.io/)** - Official Strapi v5+ documentation
+- **[Copilot Instructions](.github/copilot-instructions.md)** - AI development guidance and project context
+
 ## Related Repositories
 
 - **Database**: [tld-challenges-database](https://github.com/bigfish-software/tld-challenges-database) - PostgreSQL setup and configuration

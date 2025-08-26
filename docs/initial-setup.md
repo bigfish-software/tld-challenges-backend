@@ -653,7 +653,6 @@ Plan validation rules for:
 - URL validation for YouTube/Twitch links
 - Time format validation for submissions
 - Text content sanitization
-- Custom validation in middleware and business logic (not lifecycle hooks)
 - External URL validation and metadata extraction
 
 ### 12.3 IP Tracking Configuration
@@ -670,9 +669,7 @@ After completing this initial setup:
 2. **Custom Middleware**: Implement unified rate limiting and security middleware
 3. **API Customization**: Develop custom controllers and services for business logic
 4. **Frontend Integration**: Configure frontend to use the long-lived JWT token from environment
-5. **Custom Validation**: Implement submission validation in custom middleware
-6. **Performance Optimization**: Configure caching and query optimization
-7. **Production Deployment**: Set up production environment configurations
+5. **Production Deployment**: Set up production environment configurations
 
 ## Troubleshooting
 
@@ -704,14 +701,3 @@ After completing this initial setup:
 - **Community Discord**: https://discord.strapi.io/
 - **GitHub Issues**: For repository-specific problems
 - **Stack Overflow**: Tag questions with 'strapi'
-
-## Security Notes
-
-🔒 **Important Security Reminders:**
-- Never commit `.env` files to version control
-- Generate new security keys for production environments
-- Regularly update dependencies for security patches
-- Monitor submission patterns for abuse
-- Implement proper backup strategies for your database
-
-This setup provides a solid foundation for the TLD Challenges backend with security, performance, and maintainability in mind.

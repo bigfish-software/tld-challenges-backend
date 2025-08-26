@@ -11,8 +11,6 @@ This repository contains the **Strapi CMS/API backend** that serves as the centr
 Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challenges-database repo)
 ```
 
-**Critical Constraint**: The frontend has no direct database communication. All data access occurs exclusively through this Strapi backend API.
-
 ## Technology Stack
 
 - **Framework**: Strapi v5+ (TypeScript)
@@ -137,7 +135,6 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Draft Status**: All submissions start as drafts
 - **Admin Review**: Manual approval process through admin panel
 - **Status Tracking**: Enum field (pending/approved/rejected)
-- **Lifecycle Hooks**: Automated status transitions
 
 ## API Development Guidelines
 
@@ -151,7 +148,6 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Controllers**: `strapi/src/api/[entity]/controllers/`
 - **Services**: `strapi/src/api/[entity]/services/`
 - **Routes**: `strapi/src/api/[entity]/routes/`
-- **Lifecycle Hooks**: Validation and processing in content-type lifecycle functions
 
 ### Anonymous Submission Security
 ```javascript
@@ -224,31 +220,13 @@ FRONTEND_API_TOKEN=your-long-lived-jwt-token
 3. **Secure**: Configure permissions and validation rules
 4. **Extend**: Add custom business logic if needed
 
-### API Customization Priority
-1. **Leaderboard Logic**: Complex ranking calculations
-2. **Submission Validation**: Business rules for run verification
-3. **Tournament Management**: Bracket and scoring systems
-4. **Content Filtering**: Category-based organization
-5. **Media Validation**: URL validation and metadata extraction
-
 ## Contributing
-
-### Development Priorities
-1. **Content-Type First**: Define data structure through Strapi admin before coding
-2. **API Extension**: Customize generated endpoints for complex business logic
-3. **Frontend Token Setup**: Configure long-lived JWT token for single frontend consumer
-4. **Validation Layer**: Implement robust custom validation in middleware and business logic
-5. **Security Implementation**: Configure unified rate limiting, input sanitization, and abuse prevention
-6. **Moderation Workflow**: Set up draft/publish system for submission approval process
-7. **Performance**: Optimize queries for leaderboard and submission listing
-8. **Anonymous Submission Endpoints**: Configure public submission creation with private read access
 
 ### Code Quality Standards
 - TypeScript strict mode enabled
 - Follow Strapi v5+ conventions
 - Comprehensive input validation
 - Security-first approach
-- Performance optimization for public endpoints
 
 ## Documentation
 
@@ -269,10 +247,3 @@ FRONTEND_API_TOKEN=your-long-lived-jwt-token
 ## License
 
 MIT License - see LICENSE file for details
-
-## Support
-
-For development questions and issues:
-- Check [Strapi Documentation](https://docs.strapi.io/)
-- Review project's copilot instructions in `.github/copilot-instructions.md`
-- Open issues in this repository for backend-specific problems

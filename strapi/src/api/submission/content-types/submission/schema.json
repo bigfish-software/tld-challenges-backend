@@ -25,20 +25,8 @@
     "note": {
       "type": "text"
     },
-    "submitted_date": {
-      "type": "datetime"
-    },
     "result": {
       "type": "text"
-    },
-    "state": {
-      "type": "enumeration",
-      "default": "pending",
-      "enum": [
-        "pending",
-        "approved",
-        "rejected"
-      ]
     },
     "challenge": {
       "type": "relation",

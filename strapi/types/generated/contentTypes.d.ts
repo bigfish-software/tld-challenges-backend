@@ -384,7 +384,6 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    created_date: Schema.Attribute.DateTime;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -393,20 +392,13 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::custom-code.custom-code'
     >;
-    description: Schema.Attribute.Blocks;
+    description_long: Schema.Attribute.Blocks;
+    description_short: Schema.Attribute.Text;
     difficulty: Schema.Attribute.Enumeration<
-      [
-        'Pilgrim',
-        'Voyager',
-        'Stalker',
-        'Interloper',
-        'Misery',
-        'Nogoa',
-        'Custom',
-      ]
-    > &
-      Schema.Attribute.DefaultTo<'Custom'>;
+      ['Easy', 'Medium', 'Hard', 'Very Hard']
+    >;
     faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
+    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -416,19 +408,49 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     rules: Schema.Attribute.Relation<'manyToMany', 'api::rule.rule'>;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<'name'>;
     submissions: Schema.Attribute.Relation<
       'oneToMany',
       'api::submission.submission'
     >;
+    thumbnail: Schema.Attribute.Media<'images' | 'files'>;
     tournament: Schema.Attribute.Relation<
       'manyToOne',
       'api::tournament.tournament'
     >;
-    updated_date: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCreatorSocialCreatorSocial
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'creator_socials';
+  info: {
+    displayName: 'Creator Social';
+    pluralName: 'creator-socials';
+    singularName: 'creator-social';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    idea: Schema.Attribute.Relation<'manyToOne', 'api::idea.idea'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::creator-social.creator-social'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    url: Schema.Attribute.Text;
   };
 }
 
@@ -454,6 +476,8 @@ export interface ApiCreatorCreator extends Struct.CollectionTypeSchema {
       'manyToMany',
       'api::custom-code.custom-code'
     >;
+    description_long: Schema.Attribute.Blocks;
+    description_short: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -464,7 +488,7 @@ export interface ApiCreatorCreator extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<'name'>;
     tournaments: Schema.Attribute.Relation<
       'manyToMany',
       'api::tournament.tournament'
@@ -493,13 +517,14 @@ export interface ApiCustomCodeCustomCode extends Struct.CollectionTypeSchema {
       'api::challenge.challenge'
     >;
     code: Schema.Attribute.String & Schema.Attribute.Required;
-    created_date: Schema.Attribute.DateTime;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     creators: Schema.Attribute.Relation<'manyToMany', 'api::creator.creator'>;
-    description: Schema.Attribute.Blocks;
+    description_long: Schema.Attribute.Blocks;
+    description_short: Schema.Attribute.Text;
     faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
+    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -510,8 +535,8 @@ export interface ApiCustomCodeCustomCode extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
-    updated_date: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    thumbnail: Schema.Attribute.Media<'images' | 'files'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -549,6 +574,39 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     tournaments: Schema.Attribute.Relation<
       'manyToMany',
       'api::tournament.tournament'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiIdeaIdea extends Struct.CollectionTypeSchema {
+  collectionName: 'ideas';
+  info: {
+    displayName: 'Idea';
+    pluralName: 'ideas';
+    singularName: 'idea';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    creator: Schema.Attribute.String;
+    creator_socials: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::creator-social.creator-social'
+    >;
+    description: Schema.Attribute.Blocks;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::idea.idea'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    type: Schema.Attribute.Enumeration<
+      ['CustomCode', 'Challenge', 'Tournament']
     >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -614,9 +672,6 @@ export interface ApiSubmissionSubmission extends Struct.CollectionTypeSchema {
     result: Schema.Attribute.Text;
     runner: Schema.Attribute.String & Schema.Attribute.Required;
     runner_url: Schema.Attribute.String;
-    state: Schema.Attribute.Enumeration<['pending', 'approved', 'rejected']> &
-      Schema.Attribute.DefaultTo<'pending'>;
-    submitted_date: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -639,14 +694,15 @@ export interface ApiTournamentTournament extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::challenge.challenge'
     >;
-    created_date: Schema.Attribute.DateTime;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     creators: Schema.Attribute.Relation<'manyToMany', 'api::creator.creator'>;
-    description: Schema.Attribute.Blocks;
+    description_long: Schema.Attribute.Blocks;
+    description_short: Schema.Attribute.Text;
     end_date: Schema.Attribute.DateTime & Schema.Attribute.Required;
     faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
+    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -655,13 +711,13 @@ export interface ApiTournamentTournament extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<'name'>;
     start_date: Schema.Attribute.DateTime & Schema.Attribute.Required;
     state: Schema.Attribute.Enumeration<
       ['planned', 'active', 'completed', 'cancelled']
     > &
       Schema.Attribute.DefaultTo<'planned'>;
-    updated_date: Schema.Attribute.DateTime;
+    thumbnail: Schema.Attribute.Media<'images' | 'files'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1178,9 +1234,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::challenge.challenge': ApiChallengeChallenge;
+      'api::creator-social.creator-social': ApiCreatorSocialCreatorSocial;
       'api::creator.creator': ApiCreatorCreator;
       'api::custom-code.custom-code': ApiCustomCodeCustomCode;
       'api::faq.faq': ApiFaqFaq;
+      'api::idea.idea': ApiIdeaIdea;
       'api::rule.rule': ApiRuleRule;
       'api::submission.submission': ApiSubmissionSubmission;
       'api::tournament.tournament': ApiTournamentTournament;

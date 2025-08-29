@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ideas",
+  "info": {
+    "singularName": "idea",
+    "pluralName": "ideas",
+    "displayName": "Idea"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "CustomCode",
+        "Challenge",
+        "Tournament"
+      ]
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "creator": {
+      "type": "string"
+    },
+    "creator_socials": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::creator-social.creator-social",
+      "mappedBy": "idea"
+    }
+  }
+}

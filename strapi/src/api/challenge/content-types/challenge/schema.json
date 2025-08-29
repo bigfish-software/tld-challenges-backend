@@ -15,32 +15,37 @@
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "blocks"
-    },
     "slug": {
       "type": "uid",
       "targetField": "name",
-      "required": true
+      "required": false
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "description_short": {
+      "type": "text"
+    },
+    "description_long": {
+      "type": "blocks"
     },
     "difficulty": {
       "type": "enumeration",
-      "default": "Custom",
       "enum": [
-        "Pilgrim",
-        "Voyager",
-        "Stalker",
-        "Interloper",
-        "Misery",
-        "Nogoa",
-        "Custom"
+        "Easy",
+        "Medium",
+        "Hard",
+        "Very Hard"
       ]
     },
-    "created_date": {
-      "type": "datetime"
-    },
-    "updated_date": {
-      "type": "datetime"
+    "is_featured": {
+      "type": "boolean",
+      "default": false
     },
     "submissions": {
       "type": "relation",

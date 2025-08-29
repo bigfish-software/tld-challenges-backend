@@ -19,20 +19,29 @@
     "slug": {
       "type": "uid",
       "targetField": "name",
-      "required": true
+      "required": false
     },
-    "description": {
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "description_short": {
+      "type": "text"
+    },
+    "description_long": {
       "type": "blocks"
     },
     "code": {
       "type": "string",
       "required": true
     },
-    "created_date": {
-      "type": "datetime"
-    },
-    "updated_date": {
-      "type": "datetime"
+    "is_featured": {
+      "type": "boolean",
+      "default": false
     },
     "creators": {
       "type": "relation",

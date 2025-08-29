@@ -40,4 +40,9 @@ export default [
   "strapi::session",
   "strapi::favicon",
   "strapi::public",
+  // Add custom rate limiting middleware
+  {
+    name: "global::rate-limit",
+    config: {},
+  },
 ];

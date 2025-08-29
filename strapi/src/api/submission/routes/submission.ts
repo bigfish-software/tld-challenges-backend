@@ -2,6 +2,57 @@
  * submission router
  */
 
-import { factories } from '@strapi/strapi';
-
-export default factories.createCoreRouter('api::submission.submission');
+export default {
+  routes: [
+    // Default CRUD routes
+    {
+      method: 'GET',
+      path: '/submissions',
+      handler: 'submission.find',
+      config: {
+        auth: {
+          scope: ['api::submission.submission.find']
+        },
+      },
+    },
+    {
+      method: 'GET',
+      path: '/submissions/:id',
+      handler: 'submission.findOne',
+      config: {
+        auth: {
+          scope: ['api::submission.submission.findOne']
+        },
+      },
+    },
+    {
+      method: 'POST',
+      path: '/submissions',
+      handler: 'submission.create',
+      config: {
+        auth: false, // Allow anonymous submissions
+        middlewares: ['global::rate-limit'],
+      },
+    },
+    {
+      method: 'PUT',
+      path: '/submissions/:id',
+      handler: 'submission.update',
+      config: {
+        auth: {
+          scope: ['api::submission.submission.update']
+        },
+      },
+    },
+    {
+      method: 'DELETE',
+      path: '/submissions/:id',
+      handler: 'submission.delete',
+      config: {
+        auth: {
+          scope: ['api::submission.submission.delete']
+        },
+      },
+    },
+  ],
+};

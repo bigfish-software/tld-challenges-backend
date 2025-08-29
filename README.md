@@ -35,13 +35,15 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Performance Optimized**: No media processing or storage overhead
 
 ### Content Types (Implemented)
-- **Challenge**: Main challenge definitions with rules, custom code, and metadata
-- **Submission**: Anonymous run submissions with validation and moderation workflow  
-- **Tournament**: Tournament structures and participant management
-- **CustomCode**: Reusable custom game configuration codes with unique constraints
+- **Challenge**: Main challenge definitions with thumbnails, dual descriptions, difficulty levels, and featured status
+- **Submission**: User run submissions with external media links and workflow management
+- **Tournament**: Tournament structures with comprehensive metadata and participant management
+- **CustomCode**: Reusable custom game configuration codes with thumbnails and featured status
 - **Rule**: Modular rule definitions with many-to-many challenge relationships
-- **Creator**: Challenge creator profiles with social media links and slug identification
+- **Creator**: Challenge creator profiles with social media links and additional social connections
 - **FAQ**: Frequently asked questions with multi-entity associations (challenges, custom codes, tournaments)
+- **Idea**: Community suggestions and content ideas linked to creators
+- **Creator-Social**: Additional social media links for creators beyond Twitch/YouTube
 
 ## Setup and Development
 

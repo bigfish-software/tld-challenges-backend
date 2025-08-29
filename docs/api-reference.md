@@ -35,19 +35,22 @@ DELETE /api/challenges/{id}                     # Delete challenge (admin only)
 **Advanced Filtering**
 ```http
 # Filter by difficulty
-GET /api/challenges?filters[difficulty][$eq]=Interloper
+GET /api/challenges?filters[difficulty][$eq]=Hard
 
 # Filter by slug
 GET /api/challenges?filters[slug][$eq]=bear-hunt-expert
+
+# Filter by featured status
+GET /api/challenges?filters[is_featured][$eq]=true
 
 # Filter by publication state
 GET /api/challenges?publicationState=live
 
 # Complex population
-GET /api/challenges?populate[submissions][populate]=*&populate[custom_code][populate]=creators&populate[tournament]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*
+GET /api/challenges?populate[submissions][populate]=*&populate[custom_code][populate]=creators&populate[tournament]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*&populate[thumbnail]=*
 ```
 
-**Available Fields**: name, description, difficulty, slug, created_date, updated_date
+**Available Fields**: name, slug, thumbnail, description_short, description_long, difficulty, is_featured
 **Relations**: submissions, custom_code, rules, tournament, creators, faqs
 
 ### Submission API
@@ -85,14 +88,11 @@ Content-Type: application/json
 # Filter by challenge
 GET /api/submissions?filters[challenge][id][$eq]=1
 
-# Filter by state
-GET /api/submissions?filters[state][$eq]=approved
-
 # Populate challenge details
 GET /api/submissions?populate[challenge][populate]=custom_code,creators,tournament
 ```
 
-**Available Fields**: runner, runner_url, video_url, note, state, result, submitted_date
+**Available Fields**: runner, runner_url, video_url, note, result
 **Relations**: challenge
 
 ### Tournament API
@@ -112,14 +112,17 @@ DELETE /api/tournaments/{id}                    # Delete tournament (admin only)
 # Filter by state
 GET /api/tournaments?filters[state][$eq]=active
 
+# Filter by featured status
+GET /api/tournaments?filters[is_featured][$eq]=true
+
 # Filter by date range
 GET /api/tournaments?filters[start_date][$gte]=2024-01-01&filters[end_date][$lte]=2024-12-31
 
 # Populate all related content
-GET /api/tournaments?populate[challenges][populate]=submissions,custom_code&populate[creators]=*&populate[faqs]=*
+GET /api/tournaments?populate[challenges][populate]=submissions,custom_code&populate[creators]=*&populate[faqs]=*&populate[thumbnail]=*
 ```
 
-**Available Fields**: name, description, slug, start_date, end_date, state, created_date, updated_date
+**Available Fields**: name, slug, thumbnail, description_short, description_long, start_date, end_date, state, is_featured
 **Relations**: challenges, creators, faqs
 
 ### CustomCode API
@@ -139,14 +142,17 @@ DELETE /api/custom-codes/{id}                   # Delete custom code (admin only
 # Find by slug
 GET /api/custom-codes?filters[slug][$eq]=extreme-weather-settings
 
+# Filter by featured status
+GET /api/custom-codes?filters[is_featured][$eq]=true
+
 # Populate associated challenges and creators
-GET /api/custom-codes?populate[challenges][populate]=tournament,submissions&populate[creators]=*&populate[faqs]=*
+GET /api/custom-codes?populate[challenges][populate]=tournament,submissions&populate[creators]=*&populate[faqs]=*&populate[thumbnail]=*
 
 # Search by name
 GET /api/custom-codes?filters[name][$contains]=weather
 ```
 
-**Available Fields**: name, code, description, slug, created_date, updated_date
+**Available Fields**: name, slug, thumbnail, description_short, description_long, code, is_featured
 **Relations**: challenges, creators, faqs
 
 ### Rule API
@@ -188,8 +194,8 @@ GET /api/creators?filters[slug][$eq]=creator-username&populate[challenges][popul
 GET /api/creators?populate[challenges][fields][0]=id&populate[tournaments][fields][0]=id&populate[custom_codes][fields][0]=id
 ```
 
-**Available Fields**: name, slug, twitch, youtube
-**Relations**: challenges, tournaments, custom_codes
+**Available Fields**: name, slug, description_short, description_long, twitch, youtube
+**Relations**: challenges, tournaments, custom_codes, creator_socials
 
 ### FAQ API
 
@@ -217,6 +223,64 @@ GET /api/faqs?filters[tournaments][id][$eq]=1
 
 **Available Fields**: question, answer
 **Relations**: challenges, custom_codes, tournaments
+
+### Idea API
+
+**Collection Endpoints**
+```http
+GET    /api/ideas                               # List ideas (admin only)
+GET    /api/ideas?populate=*                    # List with creator social relations
+GET    /api/ideas/{id}                          # Get single idea (admin only)
+POST   /api/ideas                               # Create idea (PUBLIC)
+PUT    /api/ideas/{id}                          # Update idea (admin only)
+DELETE /api/ideas/{id}                          # Delete idea (admin only)
+```
+
+**Public Idea Creation**
+```http
+POST /api/ideas
+Content-Type: application/json
+
+{
+  "data": {
+    "type": "Challenge",
+    "description": "New challenge idea description",
+    "creator": "Player Name",
+    "creator_socials": [
+      {"url": "https://twitch.tv/playername"},
+      {"url": "https://youtube.com/channel/xyz"}
+    ],
+    "publishedAt": null
+  }
+}
+```
+
+**Filtering & Population**
+```http
+# Filter by type
+GET /api/ideas?filters[type][$eq]=CustomCode
+
+# Populate creator
+GET /api/ideas?populate[creator]=*
+```
+
+**Available Fields**: type, description, creator
+**Relations**: creator
+
+### Creator-Social API
+
+**Collection Endpoints**
+```http
+GET    /api/creator-socials                     # List creator socials
+GET    /api/creator-socials?populate=*          # List with creator relations
+GET    /api/creator-socials/{id}                # Get single creator social
+POST   /api/creator-socials                     # Create creator social (admin only)
+PUT    /api/creator-socials/{id}                # Update creator social (admin only)
+DELETE /api/creator-socials/{id}                # Delete creator social (admin only)
+```
+
+**Available Fields**: url
+**Relations**: creator
 
 ## Query Parameters
 
@@ -349,76 +413,95 @@ All endpoints are subject to rate limiting:
 ### Challenge Fields
 ```typescript
 {
-  name: string;           // required
-  description: blocks;    // rich text content
-  difficulty: enum;       // "Pilgrim" | "Voyager" | "Stalker" | "Interloper" | "Misery" | "Nogoa" | "Custom"
-  slug: string;          // required, auto-generated from name
-  created_date: datetime;
-  updated_date: datetime;
+  name: string;              // required
+  slug: string;             // uid, auto-generated from name
+  thumbnail: media;         // images/files
+  description_short: text;   // brief description
+  description_long: blocks;  // rich text content
+  difficulty: enum;         // "Easy" | "Medium" | "Hard" | "Very Hard"
+  is_featured: boolean;     // default: false
 }
 ```
 
 ### Submission Fields
 ```typescript
 {
-  runner: string;        // required
-  runner_url: string;    // optional
-  video_url: string;     // optional
-  note: text;           // optional
-  state: enum;          // "pending" | "approved" | "rejected"
-  result: text;         // optional
-  submitted_date: datetime;
+  runner: string;           // required
+  runner_url: string;       // optional
+  video_url: string;        // optional
+  note: text;              // optional
+  result: text;            // optional
 }
 ```
 
 ### Tournament Fields
 ```typescript
 {
-  name: string;          // required
-  description: blocks;   // rich text content
-  slug: string;         // required, auto-generated from name
-  start_date: datetime; // required
-  end_date: datetime;   // required
-  state: enum;          // "planned" | "active" | "completed" | "cancelled"
-  created_date: datetime;
-  updated_date: datetime;
+  name: string;             // required
+  slug: string;            // uid, auto-generated from name
+  thumbnail: media;        // images/files
+  description_short: text;  // brief description
+  description_long: blocks; // rich text content
+  start_date: datetime;    // required
+  end_date: datetime;      // required
+  state: enum;            // "planned" | "active" | "completed" | "cancelled"
+  is_featured: boolean;   // default: false
 }
 ```
 
 ### CustomCode Fields
 ```typescript
 {
-  name: string;          // required, unique
-  code: string;         // required
-  description: blocks;  // rich text content
-  slug: string;        // required, auto-generated from name
-  created_date: datetime;
-  updated_date: datetime;
+  name: string;             // required, unique
+  slug: string;            // uid, auto-generated from name
+  thumbnail: media;        // images/files
+  description_short: text;  // brief description
+  description_long: blocks; // rich text content
+  code: string;            // required
+  is_featured: boolean;    // default: false
 }
 ```
 
 ### Creator Fields
 ```typescript
 {
-  name: string;         // required, unique
-  slug: string;        // required, auto-generated from name
-  twitch: string;      // optional
-  youtube: string;     // optional
+  name: string;             // required, unique
+  slug: string;            // uid, auto-generated from name
+  description_short: text;  // brief description
+  description_long: blocks; // rich text content
+  twitch: string;          // optional
+  youtube: string;         // optional
 }
 ```
 
 ### Rule Fields
 ```typescript
 {
-  description: blocks;  // required, rich text content
+  description: blocks;      // required, rich text content
 }
 ```
 
 ### FAQ Fields
 ```typescript
 {
-  question: text;       // required
-  answer: blocks;      // required, rich text content
+  question: text;           // required
+  answer: blocks;          // required, rich text content
+}
+```
+
+### Idea Fields
+```typescript
+{
+  type: enum;              // "CustomCode" | "Challenge" | "Tournament"
+  description: blocks;     // rich text content
+  creator: string;         // creator name
+}
+```
+
+### Creator-Social Fields
+```typescript
+{
+  url: text;               // social media URL
 }
 ```
 

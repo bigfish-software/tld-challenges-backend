@@ -297,11 +297,12 @@ Before starting the Strapi server, plan your content-types based on the project 
 1. **Challenge** (Collection Type)
    - Fields: 
      - name (Text, required)
-     - description (Rich text (Blocks))
-     - difficulty (Enumeration: "Pilgrim", "Voyager", "Stalker", "Interloper", "Misery", "Nogoa", "Custom", default: "Custom")
-     - slug (UID, targetField: name, required)
-     - created_date (Date and time)
-     - updated_date (Date and time)
+     - slug (UID, targetField: name)
+     - thumbnail (Media, images/files)
+     - description_short (Text)
+     - description_long (Rich text (Blocks))
+     - difficulty (Enumeration: "Easy", "Medium", "Hard", "Very Hard")
+     - is_featured (Boolean, default: false)
    - Relations: 
      - submissions (Relation: One to Many with Submission)
      - custom_code (Relation: Many to One with CustomCode)
@@ -317,23 +318,22 @@ Before starting the Strapi server, plan your content-types based on the project 
      - runner_url (Text)
      - video_url (Text)
      - note (Text)
-     - state (Enumeration: "pending", "approved", "rejected", default: "pending")
      - result (Text)
-     - submitted_date (Date and time)
    - Relations:
      - challenge (Relation: Many to One with Challenge)
-   - Special: Draft/Publish enabled for moderation
+   - Special: Draft/Publish enabled
 
 3. **Tournament** (Collection Type)
    - Fields:
      - name (Text, required)
-     - description (Rich text (Blocks))
-     - slug (UID, targetField: name, required)
+     - slug (UID, targetField: name)
+     - thumbnail (Media, images/files)
+     - description_short (Text)
+     - description_long (Rich text (Blocks))
      - start_date (Date and time, required)
      - end_date (Date and time, required)
-     - state (Enumeration: "planned", "active", "completed", "cancelled", default: "planned")
-     - created_date (Date and time)
-     - updated_date (Date and time)
+     - state (Enumeration: "planned", "active", "completed", "cancelled")
+     - is_featured (Boolean, default: false)
    - Relations:
      - challenges (Relation: One to Many with Challenge)
      - creators (Relation: Many to Many with Creator)
@@ -343,11 +343,12 @@ Before starting the Strapi server, plan your content-types based on the project 
 4. **CustomCode** (Collection Type)
    - Fields:
      - name (Text, required, unique)
+     - slug (UID, targetField: name)
+     - thumbnail (Media, images/files)
+     - description_short (Text)
+     - description_long (Rich text (Blocks))
      - code (Text, required)
-     - description (Rich text (Blocks))
-     - slug (UID, targetField: name, required)
-     - created_date (Date and time)
-     - updated_date (Date and time)
+     - is_featured (Boolean, default: false)
    - Relations:
      - challenges (Relation: One to Many with Challenge)
      - creators (Relation: Many to Many with Creator)
@@ -364,13 +365,16 @@ Before starting the Strapi server, plan your content-types based on the project 
 6. **Creator** (Collection Type)
    - Fields:
      - name (Text, required, unique)
-     - slug (UID, targetField: name, required)
+     - slug (UID, targetField: name)
+     - description_short (Text)
+     - description_long (Rich text (Blocks))
      - twitch (Text)
      - youtube (Text)
    - Relations:
      - challenges (Relation: Many to Many with Challenge)
      - tournaments (Relation: Many to Many with Tournament)
      - custom_codes (Relation: Many to Many with CustomCode)
+     - creator_socials (Relation: One to Many with Creator-Social)
    - Special: Draft/Publish enabled
 
 7. **FAQ** (Collection Type)
@@ -381,6 +385,22 @@ Before starting the Strapi server, plan your content-types based on the project 
      - challenges (Relation: Many to Many with Challenge)
      - custom_codes (Relation: Many to Many with CustomCode)
      - tournaments (Relation: Many to Many with Tournament)
+   - Special: Draft/Publish enabled
+
+8. **Idea** (Collection Type)
+   - Fields:
+     - type (Enumeration: "CustomCode", "Challenge", "Tournament")
+     - description (Rich text (Blocks))
+     - creator (Text)
+   - Relations:
+     - creator (Relation: Many to One with Creator)
+   - Special: Draft/Publish enabled
+
+9. **Creator-Social** (Collection Type)
+   - Fields:
+     - url (Text)
+   - Relations:
+     - creator (Relation: Many to One with Creator)
    - Special: Draft/Publish enabled
 
 ## Step 7: First Startup and Admin Setup

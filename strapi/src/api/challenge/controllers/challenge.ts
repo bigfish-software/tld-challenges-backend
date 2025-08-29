@@ -11,9 +11,11 @@ export default factories.createCoreController('api::challenge.challenge', ({ str
     
     try {
       const entity = await strapi.entityService.findMany('api::challenge.challenge', {
-        filters: { slug: slug },
+        filters: { 
+          slug: slug,
+          publishedAt: { $notNull: true },
+        },
         populate: ['thumbnail', 'submissions', 'custom_code', 'rules', 'tournament', 'creators', 'faqs'],
-        publicationState: 'live',
       });
 
       if (!entity || entity.length === 0) {

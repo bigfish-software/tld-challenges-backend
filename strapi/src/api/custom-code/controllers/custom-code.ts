@@ -11,9 +11,11 @@ export default factories.createCoreController('api::custom-code.custom-code', ({
     
     try {
       const entity = await strapi.entityService.findMany('api::custom-code.custom-code', {
-        filters: { slug: slug },
+        filters: { 
+          slug: slug,
+          publishedAt: { $notNull: true },
+        },
         populate: ['thumbnail', 'challenges', 'creators', 'faqs'],
-        publicationState: 'live',
       });
 
       if (!entity || entity.length === 0) {

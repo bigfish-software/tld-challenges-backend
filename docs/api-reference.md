@@ -111,19 +111,28 @@ GET    /api/tournaments/{id}                    # Get single tournament (auth re
 GET    /api/tournaments/slug/{slug}             # Get tournament by slug (auth required)
 ```
 
-**Advanced Queries**
+**Advanced Queries (Standard Endpoints)**
 ```http
-# Filter by state
+# Filter by state (using standard endpoint)
 GET /api/tournaments?filters[state][$eq]=active
 
-# Filter by featured status
+# Filter by featured status (using standard endpoint)
 GET /api/tournaments?filters[is_featured][$eq]=true
 
-# Filter by date range
+# Filter by date range (using standard endpoint)
 GET /api/tournaments?filters[start_date][$gte]=2024-01-01&filters[end_date][$lte]=2024-12-31
 
-# Populate all related content
+# Populate all related content (using standard endpoint)
 GET /api/tournaments?populate[challenges][populate]=submissions,custom_code&populate[creators]=*&populate[faqs]=*&populate[thumbnail]=*
+```
+
+**Custom Slug Endpoints (Fixed Population)**
+```http
+# Get tournament by slug (returns with predefined relations)
+GET /api/tournaments/slug/tournament-name
+
+# Note: Custom slug endpoints have fixed population and do not accept query parameters
+# They automatically populate: thumbnail, challenges, creators, faqs
 ```
 
 **Available Fields**: name, slug, thumbnail, description_short, description_long, start_date, end_date, state, is_featured
@@ -139,19 +148,25 @@ GET    /api/custom-codes/{id}                   # Get single custom code (auth r
 GET    /api/custom-codes/slug/{slug}            # Get custom code by slug (auth required)
 ```
 
-**Practical Queries**
+**Practical Queries (Standard Endpoints)**
 ```http
-# Find by slug (custom endpoint)
-GET /api/custom-codes/slug/extreme-weather-settings
-
-# Filter by featured status
+# Filter by featured status (using standard endpoint)
 GET /api/custom-codes?filters[is_featured][$eq]=true
 
-# Populate associated challenges and creators
+# Populate associated challenges and creators (using standard endpoint)
 GET /api/custom-codes?populate[challenges][populate]=tournament,submissions&populate[creators]=*&populate[faqs]=*&populate[thumbnail]=*
 
-# Search by name
+# Search by name (using standard endpoint)
 GET /api/custom-codes?filters[name][$contains]=weather
+```
+
+**Custom Slug Endpoints (Fixed Population)**
+```http
+# Get custom code by slug (returns with predefined relations)
+GET /api/custom-codes/slug/extreme-weather-settings
+
+# Note: Custom slug endpoints have fixed population and do not accept query parameters
+# They automatically populate: thumbnail, challenges, creators, faqs
 ```
 
 **Available Fields**: name, slug, thumbnail, description_short, description_long, code, is_featured
@@ -179,16 +194,25 @@ GET    /api/creators/{id}                       # Get single creator (auth requi
 GET    /api/creators/slug/{slug}                # Get creator by slug (auth required)
 ```
 
-**Creator Profile Queries**
+**Creator Profile Queries (Standard Endpoints)**
 ```http
-# Find by slug (custom endpoint)
+# Filter by slug (using standard endpoint)
+GET /api/creators?filters[slug][$eq]=creator-username
+
+# Get creator with all their content (using standard endpoint)
+GET /api/creators?filters[slug][$eq]=creator-username&populate[challenges][populate]=custom_code,tournament&populate[tournaments][populate]=challenges&populate[custom_codes][populate]=challenges
+
+# List creators with content counts (using standard endpoint)
+GET /api/creators?populate[challenges][fields][0]=id&populate[tournaments][fields][0]=id&populate[custom_codes][fields][0]=id
+```
+
+**Custom Slug Endpoints (Fixed Population)**
+```http
+# Get creator by slug (returns with predefined relations)
 GET /api/creators/slug/creator-username
 
-# Get creator with all their content
-GET /api/creators/slug/creator-username?populate[challenges][populate]=custom_code,tournament&populate[tournaments][populate]=challenges&populate[custom_codes][populate]=challenges
-
-# List creators with content counts (requires custom logic)
-GET /api/creators?populate[challenges][fields][0]=id&populate[tournaments][fields][0]=id&populate[custom_codes][fields][0]=id
+# Note: Custom slug endpoints have fixed population and do not accept query parameters
+# They automatically populate: challenges, tournaments, custom_codes
 ```
 
 **Available Fields**: name, slug, description_short, description_long, twitch, youtube
@@ -298,9 +322,6 @@ GET    /api/stats/overview                      # Get content statistics (auth r
 - Useful for dashboard statistics
 - Requires authentication
 - Excludes draft content from counts
-
-**Available Fields**: url
-**Relations**: creator
 
 ## Query Parameters
 

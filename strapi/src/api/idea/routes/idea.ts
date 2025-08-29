@@ -30,7 +30,9 @@ export default {
       path: '/ideas',
       handler: 'idea.create',
       config: {
-        auth: false, // Allow anonymous idea submissions
+        auth: {
+          scope: ['api::idea.idea.create']
+        },
         middlewares: ['global::rate-limit'],
       },
     },

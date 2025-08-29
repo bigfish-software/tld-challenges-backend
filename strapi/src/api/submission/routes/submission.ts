@@ -30,7 +30,9 @@ export default {
       path: '/submissions',
       handler: 'submission.create',
       config: {
-        auth: false, // Allow anonymous submissions
+        auth: {
+          scope: ['api::submission.submission.create']
+        },
         middlewares: ['global::rate-limit'],
       },
     },

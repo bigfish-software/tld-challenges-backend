@@ -5,7 +5,7 @@ This document provides comprehensive documentation for all available API endpoin
 ## Base Configuration
 
 **Base URL**: `http://localhost:1337/api` (development) | `https://your-domain.com/api` (production)
-**Authentication**: Bearer token required for most endpoints (except anonymous submission creation)
+**Authentication**: Bearer token required for all endpoints
 **Content-Type**: `application/json`
 **API Version**: Strapi v5+
 
@@ -15,7 +15,7 @@ This document provides comprehensive documentation for all available API endpoin
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
-**Note**: Only anonymous submission creation (`POST /api/submissions`) is publicly accessible. All other operations require authentication.
+**Note**: All endpoints require authentication. There are no public endpoints in the current implementation.
 
 ## Content-Type Endpoints
 
@@ -23,10 +23,11 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 **Collection Endpoints**
 ```http
-GET    /api/challenges                          # List all challenges
-GET    /api/challenges?populate=*               # List with all relations
-GET    /api/challenges/{id}                     # Get single challenge by ID
-GET    /api/challenges/{id}?populate=*          # Get single with relations
+GET    /api/challenges                          # List all challenges (auth required)
+GET    /api/challenges?populate=*               # List with all relations (auth required)
+GET    /api/challenges/{id}                     # Get single challenge by ID (auth required)
+GET    /api/challenges/{id}?populate=*          # Get single with relations (auth required)
+GET    /api/challenges/slug/{slug}              # Get challenge by slug (auth required)
 POST   /api/challenges                          # Create challenge (admin only)
 PUT    /api/challenges/{id}                     # Update challenge (admin only)
 DELETE /api/challenges/{id}                     # Delete challenge (admin only)
@@ -43,11 +44,14 @@ GET /api/challenges?filters[slug][$eq]=bear-hunt-expert
 # Filter by featured status
 GET /api/challenges?filters[is_featured][$eq]=true
 
-# Filter by publication state
-GET /api/challenges?publicationState=live
+# Filter by publication state (only published content visible by default)
+GET /api/challenges?filters[publishedAt][$notNull]=true
 
 # Complex population
 GET /api/challenges?populate[submissions][populate]=*&populate[custom_code][populate]=creators&populate[tournament]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*&populate[thumbnail]=*
+
+# Get challenge by slug with all relations (custom endpoint)
+GET /api/challenges/slug/bear-hunt-expert
 ```
 
 **Available Fields**: name, slug, thumbnail, description_short, description_long, difficulty, is_featured
@@ -57,17 +61,18 @@ GET /api/challenges?populate[submissions][populate]=*&populate[custom_code][popu
 
 **Collection Endpoints**
 ```http
-GET    /api/submissions                         # List submissions (admin only)
-GET    /api/submissions?populate=*              # List with relations (admin only)
-GET    /api/submissions/{id}                    # Get single submission (admin only)
-POST   /api/submissions                         # Create submission (PUBLIC)
-PUT    /api/submissions/{id}                    # Update submission (admin only)
-DELETE /api/submissions/{id}                    # Delete submission (admin only)
+GET    /api/submissions                         # List submissions (auth required)
+GET    /api/submissions?populate=*              # List with relations (auth required)
+GET    /api/submissions/{id}                    # Get single submission (auth required)
+POST   /api/submissions                         # Create submission (auth required)
+PUT    /api/submissions/{id}                    # Update submission (auth required)
+DELETE /api/submissions/{id}                    # Delete submission (auth required)
 ```
 
-**Public Submission Creation**
+**Submission Creation**
 ```http
 POST /api/submissions
+Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 
 {
@@ -99,9 +104,10 @@ GET /api/submissions?populate[challenge][populate]=custom_code,creators,tourname
 
 **Collection Endpoints**
 ```http
-GET    /api/tournaments                         # List tournaments
-GET    /api/tournaments?populate=*              # List with relations
-GET    /api/tournaments/{id}                    # Get single tournament
+GET    /api/tournaments                         # List tournaments (auth required)
+GET    /api/tournaments?populate=*              # List with relations (auth required)
+GET    /api/tournaments/{id}                    # Get single tournament (auth required)
+GET    /api/tournaments/slug/{slug}             # Get tournament by slug (auth required)
 POST   /api/tournaments                         # Create tournament (admin only)
 PUT    /api/tournaments/{id}                    # Update tournament (admin only)
 DELETE /api/tournaments/{id}                    # Delete tournament (admin only)
@@ -129,9 +135,10 @@ GET /api/tournaments?populate[challenges][populate]=submissions,custom_code&popu
 
 **Collection Endpoints**
 ```http
-GET    /api/custom-codes                        # List custom codes
-GET    /api/custom-codes?populate=*             # List with relations
-GET    /api/custom-codes/{id}                   # Get single custom code
+GET    /api/custom-codes                        # List custom codes (auth required)
+GET    /api/custom-codes?populate=*             # List with relations (auth required)
+GET    /api/custom-codes/{id}                   # Get single custom code (auth required)
+GET    /api/custom-codes/slug/{slug}            # Get custom code by slug (auth required)
 POST   /api/custom-codes                        # Create custom code (admin only)
 PUT    /api/custom-codes/{id}                   # Update custom code (admin only)
 DELETE /api/custom-codes/{id}                   # Delete custom code (admin only)
@@ -139,8 +146,8 @@ DELETE /api/custom-codes/{id}                   # Delete custom code (admin only
 
 **Practical Queries**
 ```http
-# Find by slug
-GET /api/custom-codes?filters[slug][$eq]=extreme-weather-settings
+# Find by slug (custom endpoint)
+GET /api/custom-codes/slug/extreme-weather-settings
 
 # Filter by featured status
 GET /api/custom-codes?filters[is_featured][$eq]=true
@@ -174,9 +181,10 @@ DELETE /api/rules/{id}                          # Delete rule (admin only)
 
 **Collection Endpoints**
 ```http
-GET    /api/creators                            # List creators
-GET    /api/creators?populate=*                 # List with all content relations
-GET    /api/creators/{id}                       # Get single creator
+GET    /api/creators                            # List creators (auth required)
+GET    /api/creators?populate=*                 # List with all content relations (auth required)
+GET    /api/creators/{id}                       # Get single creator (auth required)
+GET    /api/creators/slug/{slug}                # Get creator by slug (auth required)
 POST   /api/creators                            # Create creator (admin only)
 PUT    /api/creators/{id}                       # Update creator (admin only)
 DELETE /api/creators/{id}                       # Delete creator (admin only)
@@ -184,11 +192,11 @@ DELETE /api/creators/{id}                       # Delete creator (admin only)
 
 **Creator Profile Queries**
 ```http
-# Find by slug
-GET /api/creators?filters[slug][$eq]=creator-username
+# Find by slug (custom endpoint)
+GET /api/creators/slug/creator-username
 
 # Get creator with all their content
-GET /api/creators?filters[slug][$eq]=creator-username&populate[challenges][populate]=custom_code,tournament&populate[tournaments][populate]=challenges&populate[custom_codes][populate]=challenges
+GET /api/creators/slug/creator-username?populate[challenges][populate]=custom_code,tournament&populate[tournaments][populate]=challenges&populate[custom_codes][populate]=challenges
 
 # List creators with content counts (requires custom logic)
 GET /api/creators?populate[challenges][fields][0]=id&populate[tournaments][fields][0]=id&populate[custom_codes][fields][0]=id
@@ -228,17 +236,18 @@ GET /api/faqs?filters[tournaments][id][$eq]=1
 
 **Collection Endpoints**
 ```http
-GET    /api/ideas                               # List ideas (admin only)
-GET    /api/ideas?populate=*                    # List with creator social relations
-GET    /api/ideas/{id}                          # Get single idea (admin only)
-POST   /api/ideas                               # Create idea (PUBLIC)
-PUT    /api/ideas/{id}                          # Update idea (admin only)
-DELETE /api/ideas/{id}                          # Delete idea (admin only)
+GET    /api/ideas                               # List ideas (auth required)
+GET    /api/ideas?populate=*                    # List with creator social relations (auth required)
+GET    /api/ideas/{id}                          # Get single idea (auth required)
+POST   /api/ideas                               # Create idea (auth required)
+PUT    /api/ideas/{id}                          # Update idea (auth required)
+DELETE /api/ideas/{id}                          # Delete idea (auth required)
 ```
 
-**Public Idea Creation**
+**Idea Creation with Social Links**
 ```http
 POST /api/ideas
+Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 
 {
@@ -246,14 +255,16 @@ Content-Type: application/json
     "type": "Challenge",
     "description": "New challenge idea description",
     "creator": "Player Name",
-    "creator_socials": [
-      {"url": "https://twitch.tv/playername"},
-      {"url": "https://youtube.com/channel/xyz"}
+    "social_links": [
+      "https://twitch.tv/playername",
+      "https://youtube.com/channel/xyz"
     ],
     "publishedAt": null
   }
 }
 ```
+
+**Note**: The `social_links` array automatically creates `Creator-Social` entries. Ideas start as drafts requiring admin approval.
 
 **Filtering & Population**
 ```http
@@ -278,6 +289,34 @@ POST   /api/creator-socials                     # Create creator social (admin o
 PUT    /api/creator-socials/{id}                # Update creator social (admin only)
 DELETE /api/creator-socials/{id}                # Delete creator social (admin only)
 ```
+
+**Available Fields**: url
+**Relations**: creator
+
+### Stats API
+
+**Overview Statistics Endpoint**
+```http
+GET    /api/stats/overview                      # Get content statistics (auth required)
+```
+
+**Response Format**
+```json
+{
+  "data": {
+    "challenges": 1,
+    "customCodes": 3,
+    "tournaments": 0
+  },
+  "meta": {}
+}
+```
+
+**Features**:
+- Returns count of published content only
+- Useful for dashboard statistics
+- Requires authentication
+- Excludes draft content from counts
 
 **Available Fields**: url
 **Relations**: creator
@@ -368,34 +407,34 @@ GET /api/tournaments?filters[state][$eq]=active&populate[challenges][fields][0]=
 
 ### Challenge Detail Page
 ```http
-GET /api/challenges?filters[slug][$eq]={slug}&populate[submissions][filters][state][$eq]=approved&populate[custom_code][populate]=creators&populate[tournament]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*
+GET /api/challenges/slug/{slug}?populate[submissions][filters][publishedAt][$notNull]=true&populate[custom_code][populate]=creators&populate[tournament]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*
 ```
 
 ### Submission Leaderboard
 ```http
-GET /api/submissions?filters[challenge][id][$eq]={challengeId}&filters[state][$eq]=approved&sort=submitted_date:asc&populate[challenge][fields][0]=name
+GET /api/submissions?filters[challenge][id][$eq]={challengeId}&filters[publishedAt][$notNull]=true&sort=createdAt:asc&populate[challenge][fields][0]=name
 ```
 
 ### Creator Profile
 ```http
-GET /api/creators?filters[slug][$eq]={slug}&populate[challenges][populate][custom_code][fields][0]=name&populate[tournaments][fields][0]=name&populate[custom_codes][populate][challenges][fields][0]=name
+GET /api/creators/slug/{slug}?populate[challenges][populate][custom_code][fields][0]=name&populate[tournaments][fields][0]=name&populate[custom_codes][populate][challenges][fields][0]=name
 ```
 
 ### Tournament Detail with Challenges
 ```http
-GET /api/tournaments?filters[slug][$eq]={slug}&populate[challenges][populate]=custom_code,creators,submissions&populate[creators]=*&populate[faqs]=*
+GET /api/tournaments/slug/{slug}?populate[challenges][populate]=custom_code,creators,submissions&populate[creators]=*&populate[faqs]=*
 ```
 
 ### Custom Code Detail with Usage
 ```http
-GET /api/custom-codes?filters[slug][$eq]={slug}&populate[challenges][populate]=tournament,creators,submissions&populate[creators]=*&populate[faqs]=*
+GET /api/custom-codes/slug/{slug}?populate[challenges][populate]=tournament,creators,submissions&populate[creators]=*&populate[faqs]=*
 ```
 
 ## Rate Limiting
 
 All endpoints are subject to rate limiting:
-- **Anonymous submissions**: 5 requests per 5 minutes per IP
-- **Authenticated requests**: 100 requests per minute per token
+- **Authenticated requests**: Standard Strapi rate limits per token
+- **Rate limiting middleware**: Applied to submission and idea creation endpoints
 
 ## Status Codes
 
@@ -507,17 +546,30 @@ All endpoints are subject to rate limiting:
 
 ## Implementation Notes
 
-### Auto-Generated Nature
-All endpoints documented above are automatically generated by Strapi based on the content-type schemas. No custom controllers are currently implemented.
+### Custom Controllers Implemented
+This API includes several custom controllers beyond the auto-generated Strapi endpoints:
 
-### Missing Custom Endpoints
-For production use, you'll likely need custom controllers for:
+1. **Slug-based lookups**: 
+   - `GET /api/challenges/slug/{slug}` - Challenge retrieval by slug
+   - `GET /api/tournaments/slug/{slug}` - Tournament retrieval by slug  
+   - `GET /api/custom-codes/slug/{slug}` - Custom code retrieval by slug
+   - `GET /api/creators/slug/{slug}` - Creator retrieval by slug
 
-1. **Slug-based lookups**: `GET /api/challenges/by-slug/{slug}`
-2. **Aggregated creator data**: `GET /api/creators/{slug}/summary`
-3. **Search functionality**: `GET /api/search?q=term&type=challenges`
-4. **Statistics**: `GET /api/stats/dashboard`
-5. **Leaderboards**: `GET /api/leaderboards/{challengeSlug}`
+2. **Enhanced idea submission**: 
+   - `POST /api/ideas` - Supports automatic social links creation via `social_links` array
+
+3. **Enhanced submission validation**: 
+   - `POST /api/submissions` - Input validation and URL verification
+
+4. **Statistics endpoint**: 
+   - `GET /api/stats/overview` - Dashboard statistics for published content
+
+### Additional Custom Endpoints Needed
+For full production use, consider implementing:
+
+1. **Search functionality**: `GET /api/search?q=term&type=challenges`
+2. **Leaderboards**: `GET /api/leaderboards/{challengeSlug}`
+3. **Advanced filtering**: `GET /api/challenges/by-difficulty/{difficulty}`
 
 ### Performance Considerations
 - Deep population queries can be slow with complex relations
@@ -527,9 +579,10 @@ For production use, you'll likely need custom controllers for:
 
 ### Security Notes
 - All admin operations require proper JWT authentication
-- Anonymous submission endpoint includes rate limiting and IP tracking
+- All endpoints require authentication - no public endpoints available
 - Sensitive fields are not exposed in public responses
 - Draft content is only accessible to authenticated admin users
+- Slug-based endpoints require authentication for content access
 
 ### Relation Complexity
 The current Many-to-Many relationship structure requires verbose population syntax. Consider these patterns for complex queries:

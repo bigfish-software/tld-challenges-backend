@@ -21,17 +21,16 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 
 ## Key Features
 
-### Anonymous Submission System
-- **No User Management**: Submissions work like contact forms - no authentication required
+### Authentication System
+- **No User Management**: Submissions and ideas are created using a single frontend JWT token
 - **Long-lived JWT Frontend Token**: Frontend uses a single environment-configured JWT token
-- **Unified Rate Limiting**: Same rate limits apply to all API endpoints for simplified management
-- **Security First**: Built-in rate limiting and DDOS protection
-- **Moderation Workflow**: All submissions start as drafts requiring admin approval
-- **IP Tracking**: Prevents spam and enforces submission limits
+- **All Endpoints Protected**: All API endpoints require authentication
+- **Security First**: Built-in rate limiting and authentication protection
+- **Moderation Workflow**: All submissions and ideas start as drafts requiring admin approval
 
 ### External Media Integration
 - **No File Storage**: Only metadata and URLs to YouTube/Twitch content
-- **URL Validation**: Automated validation and metadata extraction
+- **URL Validation**: Automated validation and metadata extraction for submissions and ideas
 - **Performance Optimized**: No media processing or storage overhead
 
 ### Content Types (Implemented)
@@ -42,8 +41,9 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Rule**: Modular rule definitions with many-to-many challenge relationships
 - **Creator**: Challenge creator profiles with social media links and additional social connections
 - **FAQ**: Frequently asked questions with multi-entity associations (challenges, custom codes, tournaments)
-- **Idea**: Community suggestions and content ideas linked to creators
+- **Idea**: Community suggestions and content ideas linked to creators with automatic social link creation
 - **Creator-Social**: Additional social media links for creators beyond Twitch/YouTube
+- **Stats**: Dashboard statistics endpoint for content counts
 
 ## Setup and Development
 
@@ -98,13 +98,15 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 ├── strapi/                 # Strapi CMS application
 │   ├── src/
 │   │   ├── api/            # Business logic per API
-│   │   │   ├── challenge/  # Challenge-related endpoints
-│   │   │   ├── creator/    # Creator profiles and attribution
-│   │   │   ├── custom-code/ # Custom game configuration codes
+│   │   │   ├── challenge/  # Challenge-related endpoints with slug support
+│   │   │   ├── creator/    # Creator profiles and attribution with slug support
+│   │   │   ├── custom-code/ # Custom game configuration codes with slug support
 │   │   │   ├── faq/        # Frequently asked questions
+│   │   │   ├── idea/       # Community suggestions with social link automation
 │   │   │   ├── rule/       # Modular challenge rules  
-│   │   │   ├── submission/ # Anonymous run submissions
-│   │   │   └── tournament/ # Tournament management
+│   │   │   ├── stats/      # Statistics and dashboard endpoints
+│   │   │   ├── submission/ # Anonymous run submissions with validation
+│   │   │   └── tournament/ # Tournament management with slug support
 │   │   ├── components/     # Reusable content components
 │   │   ├── extensions/     # Plugin extensions
 │   │   ├── middlewares/    # Custom middleware

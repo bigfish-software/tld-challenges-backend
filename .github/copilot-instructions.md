@@ -21,6 +21,9 @@ If the input is merely standard or underdeveloped, your response should be to an
 - Avoid defaulting to positive reinforcement unless it is truly warranted.
 - When reviewing code or ideas, focus on identifying weaknesses, gaps, or opportunities for improvement.
 - Use examples from the codebase to illustrate points when possible.
+- **Verification First**: Before making claims about implementation status, verify the actual code using search tools.
+- **Systematic Documentation Updates**: When updating documentation, search for ALL instances of outdated information before making changes.
+- **Code-Based Truth**: Use semantic_search, grep_search, and read_file tools to understand current implementation rather than assuming based on previous conversations.
 
 ## Project Context
 
@@ -102,8 +105,9 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 #### 5. Integration Points
 - **Database**: Connects to PostgreSQL via configuration, not direct queries
 - **Frontend Communication**: RESTful API endpoints with JSON responses
-- **Authentication**: Anonymous submissions only, no user management required
-- **External Media**: Store YouTube/Twitch URLs and metadata, no file upload handling for submissions
+- **Authentication**: Use semantic_search to determine current authentication requirements
+- **External Media**: Store YouTube/Twitch URLs and metadata, no local media storage
+- **Rate Limiting**: Use code search to verify current rate limiting implementation
 
 #### 6. Development Environment
 - **Local Setup**: `npm run develop` from strapi directory for hot-reloading development server
@@ -117,50 +121,12 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Database**: Connects to managed PostgreSQL instances in production
 - **External Assets**: No media storage requirements, only URL references to external platforms
 
-#### 8. Key Content-Types (Implemented)
-- **Challenge**: Main challenge definitions with rules, custom code, and metadata
-  - Fields: name (Text, required), slug (UID, targetField: name), thumbnail (Media), description_short (Text), description_long (Rich text (Blocks)), difficulty (Enumeration: "Easy", "Medium", "Hard", "Very Hard"), is_featured (Boolean, default: false)
-  - Relations: submissions (One to Many with Submission), custom_code (Many to One with CustomCode), rules (Many to Many with Rule), tournament (Many to One with Tournament), creators (Many to Many with Creator), faqs (Many to Many with FAQ)
-  - Special: Draft/Publish enabled
-- **Submission**: User run submissions with external media links and workflow management
-  - Fields: runner (Text, required), runner_url (Text), video_url (Text), note (Text), result (Text)
-  - Relations: challenge (Many to One with Challenge)
-  - Special: Draft/Publish enabled for workflow management
-- **Tournament**: Tournament structures and participant management
-  - Fields: name (Text, required), slug (UID, targetField: name), thumbnail (Media), description_short (Text), description_long (Rich text (Blocks)), start_date (Date and time, required), end_date (Date and time, required), state (Enumeration: "planned", "active", "completed", "cancelled"), is_featured (Boolean, default: false)
-  - Relations: challenges (One to Many with Challenge), creators (Many to Many with Creator), faqs (Many to Many with FAQ)
-  - Special: Draft/Publish enabled
-- **CustomCode**: Reusable custom game configuration codes
-  - Fields: name (Text, required, unique), slug (UID, targetField: name), thumbnail (Media), description_short (Text), description_long (Rich text (Blocks)), code (Text, required), is_featured (Boolean, default: false)
-  - Relations: challenges (One to Many with Challenge), creators (Many to Many with Creator), faqs (Many to Many with FAQ)
-  - Special: Draft/Publish enabled
-- **Rule**: Modular rule definitions for challenges
-  - Fields: description (Rich text (Blocks), required)
-  - Relations: challenges (Many to Many with Challenge)
-  - Special: Draft/Publish enabled
-- **Creator**: Challenge creator profiles with social media links
-  - Fields: name (Text, required, unique), slug (UID, targetField: name), description_short (Text), description_long (Rich text (Blocks)), twitch (Text), youtube (Text)
-  - Relations: challenges (Many to Many with Challenge), tournaments (Many to Many with Tournament), custom_codes (Many to Many with CustomCode), creator_socials (One to Many with Creator-Social)
-  - Special: Draft/Publish enabled
-- **FAQ**: Frequently asked questions with challenge, custom code, and tournament associations
-  - Fields: question (Text, required), answer (Rich text (Blocks), required)
-  - Relations: challenges (Many to Many with Challenge), custom_codes (Many to Many with CustomCode), tournaments (Many to Many with Tournament)
-  - Special: Draft/Publish enabled
-- **Idea**: Community suggestions and content ideas
-  - Fields: type (Enumeration: "CustomCode", "Challenge", "Tournament"), description (Rich text (Blocks)), creator (Text)
-  - Relations: creator (Many to One with Creator)
-  - Special: Draft/Publish enabled
-- **Creator-Social**: Additional social media links for creators
-  - Fields: url (Text)
-  - Relations: creator (Many to One with Creator)
-  - Special: Draft/Publish enabled
+#### 8. Key Content-Types
+Use semantic_search and read_file tools to discover current content-type implementations and their field definitions. The data model includes challenges, submissions, tournaments, custom codes, rules, creators, FAQs, ideas, and creator social links with various relational structures.
 
 #### 9. API Customization Focus Areas
+Use semantic_search to discover what custom controllers, routes, and middleware have been implemented. Focus areas include:
 - **Leaderboard Logic**: Complex ranking calculations in custom services
-- **Submission Validation**: Business rules for run verification  
 - **Tournament Management**: Bracket and scoring systems
-- **Challenge Organization**: Content organization with filtering by difficulty, creator, custom codes, or tournament associations
-- **Media Validation**: URL validation and metadata extraction for external video/image links
-- **Creator Attribution**: Multi-entity creator relationships across challenges, tournaments, and custom codes
-- **FAQ Management**: Cross-entity FAQ associations for comprehensive help system
+- **Media Validation**: Enhanced URL validation and metadata extraction for external video/image links
 

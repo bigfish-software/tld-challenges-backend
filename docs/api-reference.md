@@ -181,7 +181,7 @@ GET    /api/rules?populate=*                    # List with challenge relations 
 GET    /api/rules/{id}                          # Get single rule (auth required)
 ```
 
-**Available Fields**: description
+**Available Fields**: name, description
 **Relations**: challenges
 
 ### Creator API
@@ -239,7 +239,7 @@ GET /api/faqs?filters[custom_codes][id][$eq]=1
 GET /api/faqs?filters[tournaments][id][$eq]=1
 ```
 
-**Available Fields**: question, answer
+**Available Fields**: name, question, answer
 **Relations**: challenges, custom_codes, tournaments
 
 ### Idea API
@@ -530,6 +530,7 @@ All endpoints are subject to rate limiting:
 ### Rule Fields
 ```typescript
 {
+  name: string;            // optional
   description: blocks;      // required, rich text content
 }
 ```
@@ -537,6 +538,7 @@ All endpoints are subject to rate limiting:
 ### FAQ Fields
 ```typescript
 {
+  name: string;            // optional
   question: text;           // required
   answer: blocks;          // required, rich text content
 }

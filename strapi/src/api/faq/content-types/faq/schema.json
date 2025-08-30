@@ -11,6 +11,9 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "name": {
+      "type": "string"
+    },
     "question": {
       "type": "text",
       "required": true

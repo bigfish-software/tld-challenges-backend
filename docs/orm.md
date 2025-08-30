@@ -59,6 +59,7 @@ erDiagram
     
     Rule {
         int id PK
+        string name
         blocks description "required"
         datetime publishedAt "draft/publish"
     }
@@ -76,6 +77,7 @@ erDiagram
     
     FAQ {
         int id PK
+        string name
         text question "required"
         blocks answer "required"
         datetime publishedAt "draft/publish"
@@ -220,6 +222,7 @@ erDiagram
 **Purpose**: Modular rule definitions for challenges.
 
 **Fields**:
+- `name` (Text) - Optional rule name/title
 - `description` (Rich text/Blocks, required) - Rule description and details
 
 **Relations**:
@@ -254,6 +257,7 @@ erDiagram
 **Purpose**: Frequently asked questions with multi-entity associations.
 
 **Fields**:
+- `name` (Text) - Optional FAQ name/title
 - `question` (Text, required) - The question text
 - `answer` (Rich text/Blocks, required) - Formatted answer with rich content
 

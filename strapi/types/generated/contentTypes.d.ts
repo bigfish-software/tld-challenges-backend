@@ -547,7 +547,6 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
     displayName: 'FAQ';
-    mainField: 'name';
     pluralName: 'faqs';
     singularName: 'faq';
   };

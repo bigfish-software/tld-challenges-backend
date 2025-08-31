@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  tld-challenges-backend:
+    env_file:
+      - strapi/.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tld-challenges-backend
+    image: tld-challenges-backend:latest
+    restart: unless-stopped
+    ports:
+      - "1337:1337"
+    volumes:
+      # Persist uploads and other data
+      - strapi_uploads:/app/public/uploads
+      - strapi_data:/app/.strapi
+    networks:
+      - tld-challenges
+
+networks:
+  tld-challenges:
+    external: true
+    name: tld-challenges
+
+volumes:
+  strapi_uploads:
+    driver: local
+  strapi_data:
+    driver: local

@@ -1,0 +1,62 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Development files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Strapi build and cache
+strapi/.tmp
+strapi/dist
+strapi/build
+strapi/.cache
+strapi/.strapi
+strapi/.strapi-updater.json
+
+# Database files
+strapi/database/data
+*.sqlite
+*.sqlite3
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Documentation that doesn't need to be in container
+README.md
+docs/
+*.md
+
+# Postman collections
+*.postman_collection.json
+
+# Docker files (not needed in container)
+Dockerfile
+docker-compose.yml
+.dockerignore
+.env.docker

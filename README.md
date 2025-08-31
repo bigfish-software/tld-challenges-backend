@@ -53,6 +53,31 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - Docker and Docker Compose
 - Access to tld-challenges-database repository
 
+### Quick Start with Docker
+
+For the fastest setup, use Docker containers:
+
+```bash
+# 1. Clone repository
+git clone https://github.com/bigfish-software/tld-challenges-backend.git
+cd tld-challenges-backend
+
+# 2. Setup environment
+cp .env.docker .env
+# Edit .env and set secure passwords and keys
+
+# 3. Create Docker network
+docker network create tld-challenges
+
+# 4. Start services (includes database)
+docker-compose -f docker-compose.full.yml up -d
+
+# 5. Check health
+curl http://localhost:1337/_health
+```
+
+**See [Docker Setup Guide](docs/docker-setup.md) for detailed containerization instructions.**
+
 ### Local Development Setup
 
 1. **Clone and Install**
@@ -236,6 +261,7 @@ FRONTEND_API_TOKEN=your-long-lived-jwt-token
 
 ### Setup and Configuration
 - **[Initial Setup Guide](docs/initial-setup.md)** - Complete step-by-step setup instructions
+- **[Docker Setup Guide](docs/docker-setup.md)** - Containerization and deployment guide
 - **[Implementation Notes](docs/implementation-notes.md)** - Key architectural decisions and changes
 - **[Object Relation Model](docs/orm.md)** - Comprehensive data model visualization and specifications
 - **[API Reference](docs/api-reference.md)** - Complete documentation of all available endpoints

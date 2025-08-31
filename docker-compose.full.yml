@@ -1,0 +1,56 @@
+version: '3.8'
+
+# Full stack docker-compose including both backend and database
+# This is useful for local development or when you want to run both services together
+
+services:
+  # PostgreSQL Database Service
+  tld-challenges-db:
+    image: postgres:17-alpine
+    container_name: tld-challenges-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME:-tld_challenges}
+      - POSTGRES_USER=${DATABASE_USERNAME:-cms}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tld-challenges
+    ports:
+      - "5432:5432"
+
+  # Strapi Backend Service
+  tld-challenges-backend:
+    env_file:
+      - strapi/.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tld-challenges-backend
+    image: tld-challenges-backend:latest
+    restart: unless-stopped
+    ports:
+      - "1337:1337"
+    volumes:
+      # Persist uploads and other data
+      - strapi_uploads:/app/public/uploads
+      - strapi_data:/app/.strapi
+    networks:
+      - tld-challenges
+    depends_on:
+      - tld-challenges-db
+
+networks:
+  tld-challenges:
+    driver: bridge
+    name: tld-challenges
+
+volumes:
+  postgres_data:
+    driver: local
+  strapi_uploads:
+    driver: local
+  strapi_data:
+    driver: local

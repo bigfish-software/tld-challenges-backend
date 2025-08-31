@@ -1,6 +1,11 @@
 export default [
   "strapi::logger",
   "strapi::errors",
+  // Health check middleware for Docker container monitoring
+  {
+    name: "global::health-check",
+    config: {},
+  },
   {
     name: "strapi::security",
     config: {

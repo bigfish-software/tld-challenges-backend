@@ -1,0 +1,945 @@
+{
+	"info": {
+		"_postman_id": "tld-challenges-api-collection",
+		"name": "TLD Challenges API",
+		"description": "Comprehensive API collection for The Long Dark Challenges platform frontend development. Includes all endpoints, filtering, and error case testing. Authentication token should be obtained from Strapi admin panel and set in environment variables.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "tld-challenges"
+	},
+	"item": [
+		{
+			"name": "Challenges",
+			"item": [
+				{
+					"name": "List All Challenges",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							]
+						},
+						"description": "Get all published challenges with basic information"
+					},
+					"response": []
+				},
+				{
+					"name": "List Challenges with Relations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?populate=*",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "populate",
+									"value": "*"
+								}
+							]
+						},
+						"description": "Get challenges with all related data (submissions, creators, etc.)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Challenge by Slug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges/slug/{{challenge_slug}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges",
+								"slug",
+								"{{challenge_slug}}"
+							]
+						},
+						"description": "Get detailed challenge information by slug"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter by Difficulty",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?filters[difficulty][$eq]=Hard",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "filters[difficulty][$eq]",
+									"value": "Hard"
+								}
+							]
+						},
+						"description": "Filter challenges by difficulty level"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Featured Challenges",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?filters[is_featured][$eq]=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "filters[is_featured][$eq]",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Get only featured challenges"
+					},
+					"response": []
+				},
+				{
+					"name": "Challenge Not Found (404)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges/slug/non-existent-challenge",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges",
+								"slug",
+								"non-existent-challenge"
+							]
+						},
+						"description": "Test 404 error handling for non-existent challenge"
+					},
+					"response": []
+				}
+			],
+			"description": "Challenge management endpoints"
+		},
+		{
+			"name": "Tournaments",
+			"item": [
+				{
+					"name": "List All Tournaments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournaments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournaments"
+							]
+						},
+						"description": "Get all tournaments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tournament by Slug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournaments/slug/{{tournament_slug}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournaments",
+								"slug",
+								"{{tournament_slug}}"
+							]
+						},
+						"description": "Get detailed tournament information by slug"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Active Tournaments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournaments?filters[state][$eq]=active",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournaments"
+							],
+							"query": [
+								{
+									"key": "filters[state][$eq]",
+									"value": "active"
+								}
+							]
+						},
+						"description": "Get only active tournaments"
+					},
+					"response": []
+				},
+				{
+					"name": "Tournament Not Found (404)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournaments/slug/non-existent-tournament",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournaments",
+								"slug",
+								"non-existent-tournament"
+							]
+						},
+						"description": "Test 404 error handling for non-existent tournament"
+					},
+					"response": []
+				}
+			],
+			"description": "Tournament management endpoints"
+		},
+		{
+			"name": "Custom Codes",
+			"item": [
+				{
+					"name": "List All Custom Codes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/custom-codes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"custom-codes"
+							]
+						},
+						"description": "Get all custom game codes"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Custom Code by Slug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/custom-codes/slug/{{custom_code_slug}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"custom-codes",
+								"slug",
+								"{{custom_code_slug}}"
+							]
+						},
+						"description": "Get detailed custom code information by slug"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Featured Custom Codes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/custom-codes?filters[is_featured][$eq]=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"custom-codes"
+							],
+							"query": [
+								{
+									"key": "filters[is_featured][$eq]",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Get only featured custom codes"
+					},
+					"response": []
+				}
+			],
+			"description": "Custom game code endpoints"
+		},
+		{
+			"name": "Creators",
+			"item": [
+				{
+					"name": "List All Creators",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/creators",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"creators"
+							]
+						},
+						"description": "Get all content creators"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Creator by Slug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/creators/slug/{{creator_slug}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"creators",
+								"slug",
+								"{{creator_slug}}"
+							]
+						},
+						"description": "Get detailed creator information by slug"
+					},
+					"response": []
+				},
+				{
+					"name": "Creator with Relations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/creators?populate[challenges]=*&populate[tournaments]=*&populate[custom_codes]=*",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"creators"
+							],
+							"query": [
+								{
+									"key": "populate[challenges]",
+									"value": "*"
+								},
+								{
+									"key": "populate[tournaments]",
+									"value": "*"
+								},
+								{
+									"key": "populate[custom_codes]",
+									"value": "*"
+								}
+							]
+						},
+						"description": "Get creators with their related content"
+					},
+					"response": []
+				}
+			],
+			"description": "Content creator endpoints"
+		},
+		{
+			"name": "Submissions",
+			"item": [
+				{
+					"name": "List All Submissions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/submissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"submissions"
+							]
+						},
+						"description": "Get all run submissions"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Submission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"runner_name\": \"TestRunner\",\n    \"run_time\": \"02:15:30\",\n    \"video_url\": \"https://www.youtube.com/watch?v=example\",\n    \"description\": \"Great run with new strategy\",\n    \"challenge\": 1\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/submissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"submissions"
+							]
+						},
+						"description": "Submit a new run"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Submissions by Challenge",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/submissions?filters[challenge][id][$eq]=1&sort=createdAt:asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"submissions"
+							],
+							"query": [
+								{
+									"key": "filters[challenge][id][$eq]",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "createdAt:asc"
+								}
+							]
+						},
+						"description": "Get submissions for a specific challenge (leaderboard)"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Submission (400)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"runner_name\": \"\",\n    \"video_url\": \"invalid-url\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/submissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"submissions"
+							]
+						},
+						"description": "Test validation error handling for invalid submission data"
+					},
+					"response": []
+				}
+			],
+			"description": "Run submission endpoints"
+		},
+		{
+			"name": "Ideas",
+			"item": [
+				{
+					"name": "List All Ideas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/ideas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ideas"
+							]
+						},
+						"description": "Get all community ideas"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Idea",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"title\": \"New Challenge Idea\",\n    \"description\": \"A challenging survival scenario in Pleasant Valley\",\n    \"author_name\": \"TestUser\",\n    \"social_links\": [\n      {\n        \"platform\": \"YouTube\",\n        \"url\": \"https://youtube.com/@testuser\"\n      },\n      {\n        \"platform\": \"Twitch\",\n        \"url\": \"https://twitch.tv/testuser\"\n      }\n    ]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ideas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ideas"
+							]
+						},
+						"description": "Submit a new community idea with social links"
+					},
+					"response": []
+				}
+			],
+			"description": "Community idea submission endpoints"
+		},
+		{
+			"name": "Error Cases",
+			"item": [
+				{
+					"name": "Unauthorized Request (401)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/challenges",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							]
+						},
+						"description": "Test unauthorized access without Bearer token"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Bearer Token (401)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer invalid_token_here"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							]
+						},
+						"description": "Test invalid JWT token handling"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Endpoint (404)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/nonexistent",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"nonexistent"
+							]
+						},
+						"description": "Test 404 error for non-existent endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "Rate Limit Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"title\": \"Rate limit test\",\n    \"description\": \"Testing rate limiting\",\n    \"author_name\": \"TestUser\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ideas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ideas"
+							]
+						},
+						"description": "Test rate limiting on idea submissions (run multiple times quickly)"
+					},
+					"response": []
+				}
+			],
+			"description": "Error case testing for proper error handling"
+		},
+		{
+			"name": "Pagination & Sorting",
+			"item": [
+				{
+					"name": "Paginated Challenges",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?pagination[page]=1&pagination[pageSize]=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Test pagination with page size limit"
+					},
+					"response": []
+				},
+				{
+					"name": "Sorted Challenges by Date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?sort=createdAt:desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "createdAt:desc"
+								}
+							]
+						},
+						"description": "Get challenges sorted by creation date (newest first)"
+					},
+					"response": []
+				},
+				{
+					"name": "Sorted Challenges by Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?sort=name:asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "name:asc"
+								}
+							]
+						},
+						"description": "Get challenges sorted alphabetically by name"
+					},
+					"response": []
+				}
+			],
+			"description": "Pagination and sorting examples"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Pre-request script to check authentication token",
+					"if (!pm.environment.get('auth_token')) {",
+					"    console.log('Warning: No auth token set. Please set auth_token in environment variables.');",
+					"    console.log('Get your token from Strapi admin panel API Tokens section.');",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Global test script for common validations",
+					"pm.test('Response time is acceptable', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});",
+					"",
+					"if (pm.response.code === 200) {",
+					"    pm.test('Response is JSON', function () {",
+					"        pm.response.to.have.jsonBody();",
+					"    });",
+					"    ",
+					"    pm.test('Response has data or meta structure', function () {",
+					"        const responseJson = pm.response.json();",
+					"        pm.expect(responseJson).to.have.any.keys('data', 'meta', 'jwt');",
+					"    });",
+					"}",
+					"",
+					"// Log response for debugging",
+					"if (pm.response.code >= 400) {",
+					"    console.log('Error response:', pm.response.text());",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:1337",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "820713c4482560bc16b8de78921188a4e223b662eacbe0b4edae4014d7f4a270affdad74d5808c10560efa95ae5dafb1cf5835c335c586848159dbadd76ef41b61ada5b4b12afc3bd9ccb62da044acb04f066e3affcbd98f6dea512e3db8cb5257ac926199403e02c6e39d184d59e2159577ff9dbf0a1f38d008dddc998b84d5",
+			"type": "string"
+		},
+		{
+			"key": "challenge_slug",
+			"value": "furry-then-silence-stalker",
+			"type": "string"
+		},
+		{
+			"key": "tournament_slug",
+			"value": "furry-then-silence",
+			"type": "string"
+		},
+		{
+			"key": "custom_code_slug",
+			"value": "n-o-g-o-a",
+			"type": "string"
+		},
+		{
+			"key": "creator_slug",
+			"value": "perfect-trip",
+			"type": "string"
+		}
+	]
+}

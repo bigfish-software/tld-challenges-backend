@@ -373,6 +373,44 @@
 						"description": "Get only featured custom codes"
 					},
 					"response": []
+				},
+				{
+					"name": "List Custom Codes with Creators",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/custom-codes?populate=creators&pagination[start]=0&pagination[limit]=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"custom-codes"
+							],
+							"query": [
+								{
+									"key": "populate",
+									"value": "creators"
+								},
+								{
+									"key": "pagination[start]",
+									"value": "0"
+								},
+								{
+									"key": "pagination[limit]",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get all custom codes with their creators, paginated"
+					},
+					"response": []
 				}
 			],
 			"description": "Custom game code endpoints"

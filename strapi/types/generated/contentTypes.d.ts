@@ -393,7 +393,10 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
       'api::custom-code.custom-code'
     >;
     description_long: Schema.Attribute.Blocks;
-    description_short: Schema.Attribute.Text;
+    description_short: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
     difficulty: Schema.Attribute.Enumeration<
       ['Easy', 'Medium', 'Hard', 'Very Hard']
     >;
@@ -477,7 +480,10 @@ export interface ApiCreatorCreator extends Struct.CollectionTypeSchema {
       'api::custom-code.custom-code'
     >;
     description_long: Schema.Attribute.Blocks;
-    description_short: Schema.Attribute.Text;
+    description_short: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -522,7 +528,10 @@ export interface ApiCustomCodeCustomCode extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     creators: Schema.Attribute.Relation<'manyToMany', 'api::creator.creator'>;
     description_long: Schema.Attribute.Blocks;
-    description_short: Schema.Attribute.Text;
+    description_short: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
     faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
     is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -701,7 +710,10 @@ export interface ApiTournamentTournament extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     creators: Schema.Attribute.Relation<'manyToMany', 'api::creator.creator'>;
     description_long: Schema.Attribute.Blocks;
-    description_short: Schema.Attribute.Text;
+    description_short: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
     end_date: Schema.Attribute.DateTime & Schema.Attribute.Required;
     faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
     is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;

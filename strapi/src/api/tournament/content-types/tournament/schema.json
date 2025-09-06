@@ -29,7 +29,8 @@
       ]
     },
     "description_short": {
-      "type": "text"
+      "type": "text",
+      "maxLength": 160
     },
     "description_long": {
       "type": "blocks"

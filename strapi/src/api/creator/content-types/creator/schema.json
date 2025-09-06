@@ -22,7 +22,9 @@
       "required": false
     },
     "description_short": {
-      "type": "text"
+      "type": "text",
+      "maxLength": 160,
+      "required": false
     },
     "description_long": {
       "type": "blocks"

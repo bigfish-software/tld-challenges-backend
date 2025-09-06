@@ -91,6 +91,32 @@
 					"response": []
 				},
 				{
+					"name": "Get Challenge by Slug (furry-then-silence-nogoa-lite)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges/slug/furry-then-silence-nogoa-lite",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges",
+								"slug",
+								"furry-then-silence-nogoa-lite"
+							]
+						},
+						"description": "Get detailed challenge information for furry-then-silence-nogoa-lite slug"
+					},
+					"response": []
+				},
+				{
 					"name": "Filter by Difficulty",
 					"request": {
 						"method": "GET",

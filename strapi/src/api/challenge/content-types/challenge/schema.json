@@ -78,9 +78,9 @@
       "target": "api::rule.rule",
       "inversedBy": "challenges"
     },
-    "tournament": {
+    "tournaments": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::tournament.tournament",
       "inversedBy": "challenges"
     }

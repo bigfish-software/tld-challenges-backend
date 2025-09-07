@@ -102,7 +102,8 @@ erDiagram
     %% Direct Foreign Key Relations (Many-to-One)
     Challenge ||--o{ Submission : "has many"
     CustomCode ||--o{ Challenge : "has many"
-    Tournament ||--o{ Challenge : "has many"
+    Tournament }|--|| tournaments_challenges_links : ""
+    tournaments_challenges_links ||--|| Challenge : ""
     Creator ||--o{ Idea : "has many"
     Creator ||--o{ CreatorSocial : "has many"
     
@@ -147,7 +148,7 @@ erDiagram
 **Relations**:
 - `submissions` (One to Many → Submission) - User submissions for this challenge
 - `custom_code` (Many to One → CustomCode) - Associated game configuration code
-- `tournament` (Many to One → Tournament) - Parent tournament (challenges belong to one tournament)
+- `tournaments` (Many to Many ↔ Tournament) - Tournaments this challenge is used in
 - `creators` (Many to Many ↔ Creator) - Challenge creators/authors
 - `rules` (Many to Many ↔ Rule) - Associated rule definitions
 - `faqs` (Many to Many ↔ FAQ) - Related frequently asked questions
@@ -189,7 +190,7 @@ erDiagram
 - `is_featured` (Boolean, default: false) - Featured status for highlighting
 
 **Relations**:
-- `challenges` (One to Many ← Challenge) - Tournament challenges
+- `challenges` (Many to Many ↔ Challenge) - Tournament challenges
 - `creators` (Many to Many ↔ Creator) - Tournament organizers
 - `faqs` (Many to Many ↔ FAQ) - Tournament-specific FAQs
 
@@ -371,7 +372,8 @@ custom_codes_faqs_links (
 ```sql
 -- Direct foreign key columns
 challenges.custom_code_id → custom_codes.id
-challenges.tournament_id → tournaments.id  
+tournaments_challenges_links.challenge_id → challenges.id  
+tournaments_challenges_links.tournament_id → tournaments.id  
 submissions.challenge_id → challenges.id
 ideas.creator_id → creators.id
 creator_socials.creator_id → creators.id
@@ -492,7 +494,8 @@ All content types support the draft/publish workflow:
 ```sql
 -- Recommended indexes for query performance
 CREATE INDEX idx_challenges_difficulty ON challenges(difficulty);
-CREATE INDEX idx_challenges_tournament ON challenges(tournament_id);
+CREATE INDEX idx_tournaments_challenges_links_challenge ON tournaments_challenges_links(challenge_id);
+CREATE INDEX idx_tournaments_challenges_links_tournament ON tournaments_challenges_links(tournament_id);
 CREATE INDEX idx_challenges_custom_code ON challenges(custom_code_id);
 CREATE INDEX idx_challenges_featured ON challenges(is_featured);
 CREATE INDEX idx_submissions_challenge ON submissions(challenge_id);

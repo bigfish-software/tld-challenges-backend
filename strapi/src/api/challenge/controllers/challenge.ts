@@ -25,7 +25,7 @@ export default factories.createCoreController('api::challenge.challenge', ({ str
         filters: { 
           slug: slug,
         },
-        populate: ['thumbnail', 'submissions', 'creators', 'faqs', 'custom_code', 'rules', 'tournament'],
+        populate: ['thumbnail', 'submissions', 'creators', 'faqs', 'custom_code', 'rules', 'tournaments'],
       });
 
       console.log('Raw entities found:', entities?.length);

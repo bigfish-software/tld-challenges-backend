@@ -71,9 +71,9 @@
     },
     "challenges": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::challenge.challenge",
-      "mappedBy": "tournament"
+      "mappedBy": "tournaments"
     }
   }
 }

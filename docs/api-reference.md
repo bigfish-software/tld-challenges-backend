@@ -228,7 +228,7 @@ Content-Type: application/json
 GET /api/submissions?filters[challenge][id][$eq]=1
 
 # Populate challenge details
-GET /api/submissions?populate[challenge][populate]=custom_code,creators,tournament
+GET /api/submissions?populate[challenge][populate]=custom_code,creators,tournaments
 ```
 
 **Available Fields**: runner, runner_url, video_url, note, result
@@ -1203,10 +1203,10 @@ The current Many-to-Many relationship structure requires verbose population synt
 
 ```http
 # Full challenge detail (complex but complete)
-GET /api/challenges?filters[slug][$eq]=challenge-slug&populate[submissions][filters][state][$eq]=approved&populate[submissions][sort][0]=submitted_date:asc&populate[custom_code][populate][creators]=*&populate[tournament][populate][creators]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*
+GET /api/challenges?filters[slug][$eq]=challenge-slug&populate[submissions][filters][state][$eq]=approved&populate[submissions][sort][0]=submitted_date:asc&populate[custom_code][populate][creators]=*&populate[tournaments][populate][creators]=*&populate[creators]=*&populate[rules]=*&populate[faqs]=*
 
 # Creator with all content types
-GET /api/creators?filters[slug][$eq]=creator-slug&populate[challenges][populate][tournament,custom_code]&populate[tournaments][populate][challenges]&populate[custom_codes][populate][challenges]
+GET /api/creators?filters[slug][$eq]=creator-slug&populate[challenges][populate][tournaments,custom_code]&populate[tournaments][populate][challenges]&populate[custom_codes][populate][challenges]
 ```
 
 ### Frontend Development Recommendations

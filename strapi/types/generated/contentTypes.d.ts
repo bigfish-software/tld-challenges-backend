@@ -417,8 +417,8 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
       'api::submission.submission'
     >;
     thumbnail: Schema.Attribute.Media<'images' | 'files'>;
-    tournament: Schema.Attribute.Relation<
-      'manyToOne',
+    tournaments: Schema.Attribute.Relation<
+      'manyToMany',
       'api::tournament.tournament'
     >;
     updatedAt: Schema.Attribute.DateTime;
@@ -702,7 +702,7 @@ export interface ApiTournamentTournament extends Struct.CollectionTypeSchema {
   };
   attributes: {
     challenges: Schema.Attribute.Relation<
-      'oneToMany',
+      'manyToMany',
       'api::challenge.challenge'
     >;
     createdAt: Schema.Attribute.DateTime;

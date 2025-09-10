@@ -24,6 +24,7 @@ export default factories.createCoreController('api::tournament.tournament', ({ s
         filters: { 
           slug: slug,
         },
+        populate: ['thumbnail', 'challenges', 'creators', 'faqs'],
       });
 
       console.log('Raw entities found:', entities?.length);

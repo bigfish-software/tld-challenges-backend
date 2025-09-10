@@ -24,6 +24,7 @@ export default factories.createCoreController('api::custom-code.custom-code', ({
         filters: { 
           slug: slug,
         },
+        populate: ['thumbnail', 'challenges', 'creators', 'faqs'],
       });
 
       console.log('Raw entities found:', entities?.length);

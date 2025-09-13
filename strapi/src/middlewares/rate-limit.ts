@@ -24,7 +24,7 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
   return (key: string): { allowed: boolean; retryAfter?: number } => {
     const now = Date.now();
     const entry = rateLimitStore.get(key);
-    
+
     if (!entry || now > entry.resetTime) {
       // Create new entry or reset expired entry
       rateLimitStore.set(key, {
@@ -33,7 +33,7 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
       });
       return { allowed: true };
     }
-    
+
     if (entry.count >= maxRequests) {
       // Rate limit exceeded
       return {
@@ -41,23 +41,29 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
         retryAfter: Math.ceil((entry.resetTime - now) / 1000),
       };
     }
-    
+
     // Increment counter
     entry.count += 1;
     return { allowed: true };
   };
 }
 
-export default () => {
+export default ({ env }) => {
   return async (ctx, next) => {
+    // Skip rate limiting if explicitly disabled via environment variable
+    if (env('DISABLE_RATE_LIMIT') === 'true') {
+      await next();
+      return;
+    }
+
     // Apply rate limiting only to POST endpoints
     if (ctx.request.method === 'POST') {
       const endpoint = ctx.request.path;
       const ip = ctx.request.ip || ctx.request.header['x-forwarded-for'] || 'unknown';
-      
+
       let rateLimiter;
       let limitType = '';
-      
+
       if (endpoint.includes('/submissions')) {
         // 5 submissions per hour per IP
         rateLimiter = createRateLimiter(5, 60 * 60 * 1000); // 1 hour
@@ -67,11 +73,11 @@ export default () => {
         rateLimiter = createRateLimiter(10, 60 * 60 * 1000); // 1 hour
         limitType = 'idea';
       }
-      
+
       if (rateLimiter && limitType) {
         const key = `${limitType}:${ip}`;
         const { allowed, retryAfter } = rateLimiter(key);
-        
+
         if (!allowed) {
           ctx.status = 429;
           ctx.set('Retry-After', retryAfter?.toString() || '3600');
@@ -89,7 +95,7 @@ export default () => {
         }
       }
     }
-    
+
     await next();
   };
 };

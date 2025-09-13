@@ -1,4 +1,4 @@
-export default [
+export default ({ env }) => [
   "strapi::logger",
   "strapi::errors",
   // Health check middleware for Docker container monitoring

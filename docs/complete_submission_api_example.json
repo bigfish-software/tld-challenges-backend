@@ -1,0 +1,73 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:1337/api/submissions",
+    "headers": {
+      "Authorization": "Bearer YOUR_API_TOKEN_HERE",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "runner": "PlayerName",
+        "challenge": 17,
+        "video_url": "https://www.youtube.com/watch?v=VIDEO_ID",
+        "result": "02:15:30",
+        "note": "Great run! Used advanced strategy.",
+        "runner_url": "https://twitch.tv/playername"
+      }
+    }
+  },
+  "expectedResponse": {
+    "data": {
+      "id": 1,
+      "documentId": "abc123def456",
+      "runner": "PlayerName",
+      "runner_url": "https://twitch.tv/playername",
+      "video_url": "https://www.youtube.com/watch?v=VIDEO_ID",
+      "note": "Great run! Used advanced strategy.",
+      "result": "02:15:30",
+      "createdAt": "2025-09-13T12:00:00.000Z",
+      "updatedAt": "2025-09-13T12:00:00.000Z",
+      "publishedAt": null
+    },
+    "meta": {}
+  },
+  "errorResponses": {
+    "400": {
+      "error": {
+        "status": 400,
+        "name": "BadRequestError",
+        "message": "Runner name, challenge, video URL, and result are required"
+      }
+    },
+    "401": {
+      "error": {
+        "status": 401,
+        "name": "UnauthorizedError",
+        "message": "Unauthorized"
+      }
+    },
+    "429": {
+      "error": {
+        "status": 429,
+        "name": "RateLimitError",
+        "message": "Too many submissions. Please try again later.",
+        "details": {
+          "retryAfter": 3600
+        }
+      }
+    }
+  },
+  "fieldRequirements": {
+    "required": [
+      "runner (string) - Player/runner name",
+      "challenge (number) - Challenge ID from database",
+      "video_url (string) - YouTube/Twitch video URL",
+      "result (string) - Run time (e.g., '02:15:30')"
+    ],
+    "optional": [
+      "note (string) - Description or notes about the run",
+      "runner_url (string) - Runner's profile URL (Twitch, YouTube, etc.)"
+    ]
+  }
+}

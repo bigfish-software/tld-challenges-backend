@@ -19,8 +19,8 @@ export default factories.createCoreController('api::submission.submission', ({ s
     const { data } = ctx.request.body;
     
     // Input validation
-    if (!data.runner || !data.challenge) {
-      return ctx.badRequest('Runner name and challenge are required');
+    if (!data.runner || !data.challenge || !data.video_url || !data.result) {
+      return ctx.badRequest('Runner name, challenge, video URL, and result are required');
     }
     
     // Validate URLs if provided
@@ -28,7 +28,7 @@ export default factories.createCoreController('api::submission.submission', ({ s
       return ctx.badRequest('Invalid runner URL format');
     }
     
-    if (data.video_url && !isValidUrl(data.video_url)) {
+    if (!isValidUrl(data.video_url)) {
       return ctx.badRequest('Invalid video URL format');
     }
     

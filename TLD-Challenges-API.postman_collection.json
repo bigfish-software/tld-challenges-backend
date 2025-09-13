@@ -578,7 +578,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"data\": {\n    \"runner_name\": \"TestRunner\",\n    \"run_time\": \"02:15:30\",\n    \"video_url\": \"https://www.youtube.com/watch?v=example\",\n    \"description\": \"Great run with new strategy\",\n    \"challenge\": 1\n  }\n}"
+							"raw": "{\n  \"data\": {\n    \"runner\": \"TestRunner\",\n    \"run_time\": \"02:15:30\",\n    \"video_url\": \"https://www.youtube.com/watch?v=example\",\n    \"description\": \"Great run with new strategy\",\n    \"challenge\": 1\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/submissions",

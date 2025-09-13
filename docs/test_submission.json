@@ -3,7 +3,8 @@
     "runner": "TestRunner",
     "challenge": 17,
     "video_url": "https://www.youtube.com/watch?v=example",
+    "result": "02:15:30",
     "note": "Great run with new strategy",
-    "result": "02:15:30"
+    "runner_url": "https://twitch.tv/testrunner"
   }
 }

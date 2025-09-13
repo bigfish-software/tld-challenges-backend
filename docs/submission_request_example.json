@@ -1,0 +1,18 @@
+{
+  "method": "POST",
+  "url": "http://localhost:1337/api/submissions",
+  "headers": {
+    "Authorization": "Bearer YOUR_API_TOKEN_HERE",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "data": {
+      "runner": "PlayerName",
+      "challenge": 17,
+      "video_url": "https://www.youtube.com/watch?v=VIDEO_ID",
+      "result": "02:15:30",
+      "note": "Great run! Used advanced strategy.",
+      "runner_url": "https://twitch.tv/playername"
+    }
+  }
+}

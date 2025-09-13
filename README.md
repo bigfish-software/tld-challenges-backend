@@ -265,6 +265,7 @@ FRONTEND_API_TOKEN=your-long-lived-jwt-token
 - **[Implementation Notes](docs/implementation-notes.md)** - Key architectural decisions and changes
 - **[Object Relation Model](docs/orm.md)** - Comprehensive data model visualization and specifications
 - **[API Reference](docs/api-reference.md)** - Complete documentation of all available endpoints
+- **[API Examples & Testing](docs/README.md)** - Sample requests, test files, and frontend integration examples
 
 ### Development Resources
 - **[Strapi Documentation](https://docs.strapi.io/)** - Official Strapi v5+ documentation

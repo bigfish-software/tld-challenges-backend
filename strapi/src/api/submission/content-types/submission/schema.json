@@ -20,13 +20,14 @@
     },
     "video_url": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "note": {
       "type": "text"
     },
     "result": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "challenge": {
       "type": "relation",

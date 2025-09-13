@@ -24,6 +24,7 @@ If the input is merely standard or underdeveloped, your response should be to an
 - **Verification First**: Before making claims about implementation status, verify the actual code using search tools.
 - **Systematic Documentation Updates**: When updating documentation, search for ALL instances of outdated information before making changes.
 - **Code-Based Truth**: Use semantic_search, grep_search, and read_file tools to understand current implementation rather than assuming based on previous conversations.
+- **NO EMOJIS IN CODE**: NEVER use emojis in code, comments, or UI text. This is a professional gaming platform that maintains a clean, text-based aesthetic.
 
 ## Project Context
 

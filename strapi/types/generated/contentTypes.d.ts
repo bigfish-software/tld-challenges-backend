@@ -680,13 +680,13 @@ export interface ApiSubmissionSubmission extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     note: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
-    result: Schema.Attribute.Text;
+    result: Schema.Attribute.Text & Schema.Attribute.Required;
     runner: Schema.Attribute.String & Schema.Attribute.Required;
     runner_url: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    video_url: Schema.Attribute.String;
+    video_url: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 

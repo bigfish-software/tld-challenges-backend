@@ -48,10 +48,10 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
   };
 }
 
-export default ({ env }) => {
+export default (config, { strapi }) => {
   return async (ctx, next) => {
     // Skip rate limiting if explicitly disabled via environment variable
-    if (env('DISABLE_RATE_LIMIT') === 'true') {
+    if (process.env.DISABLE_RATE_LIMIT === 'true') {
       await next();
       return;
     }

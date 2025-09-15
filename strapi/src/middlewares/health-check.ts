@@ -1,12 +1,7 @@
-/**
- * Health check middleware for Docker container health monitoring
- */
-
 export default (config, { strapi }) => {
   return async (ctx, next) => {
     if (ctx.request.url === '/_health') {
       try {
-        // Check database connection
         await strapi.db.connection.raw('SELECT 1');
         
         ctx.status = 200;

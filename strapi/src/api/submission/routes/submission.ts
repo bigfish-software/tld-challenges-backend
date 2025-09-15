@@ -1,10 +1,5 @@
-/**
- * submission router
- */
-
 export default {
   routes: [
-    // Default CRUD routes
     {
       method: 'GET',
       path: '/submissions',

@@ -1,7 +1,3 @@
-/**
- * stats router
- */
-
 export default {
   routes: [
     {

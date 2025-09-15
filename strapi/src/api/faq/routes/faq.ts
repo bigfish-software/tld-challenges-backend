@@ -1,7 +1,3 @@
-/**
- * faq router
- */
-
 export default {
   routes: [
     {

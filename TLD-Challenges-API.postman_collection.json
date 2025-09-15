@@ -706,7 +706,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"data\": {\n    \"title\": \"New Challenge Idea\",\n    \"description\": \"A challenging survival scenario in Pleasant Valley\",\n    \"author_name\": \"TestUser\",\n    \"social_links\": [\n      {\n        \"platform\": \"YouTube\",\n        \"url\": \"https://youtube.com/@testuser\"\n      },\n      {\n        \"platform\": \"Twitch\",\n        \"url\": \"https://twitch.tv/testuser\"\n      }\n    ]\n  }\n}"
+							"raw": "{\n  \"data\": {\n    \"type\": \"Challenge\",\n    \"description\": \"A challenging survival scenario in Pleasant Valley\",\n    \"creator\": 1\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/ideas",

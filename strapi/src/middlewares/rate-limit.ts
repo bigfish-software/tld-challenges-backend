@@ -1,8 +1,3 @@
-/**
- * Rate limiting middleware for anonymous submissions
- */
-
-// Simple in-memory rate limiting store
 interface RateLimitEntry {
   count: number;
   resetTime: number;
@@ -10,7 +5,6 @@ interface RateLimitEntry {
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
-// Clean up expired entries every 10 minutes
 setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of rateLimitStore.entries()) {
@@ -26,7 +20,6 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
     const entry = rateLimitStore.get(key);
 
     if (!entry || now > entry.resetTime) {
-      // Create new entry or reset expired entry
       rateLimitStore.set(key, {
         count: 1,
         resetTime: now + windowMs,
@@ -35,14 +28,12 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
     }
 
     if (entry.count >= maxRequests) {
-      // Rate limit exceeded
       return {
         allowed: false,
         retryAfter: Math.ceil((entry.resetTime - now) / 1000),
       };
     }
 
-    // Increment counter
     entry.count += 1;
     return { allowed: true };
   };
@@ -50,13 +41,11 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
 
 export default (config, { strapi }) => {
   return async (ctx, next) => {
-    // Skip rate limiting if explicitly disabled via environment variable
     if (process.env.DISABLE_RATE_LIMIT === 'true') {
       await next();
       return;
     }
 
-    // Apply rate limiting only to POST endpoints
     if (ctx.request.method === 'POST') {
       const endpoint = ctx.request.path;
       const ip = ctx.request.ip || ctx.request.header['x-forwarded-for'] || 'unknown';
@@ -65,12 +54,10 @@ export default (config, { strapi }) => {
       let limitType = '';
 
       if (endpoint.includes('/submissions')) {
-        // 5 submissions per hour per IP
-        rateLimiter = createRateLimiter(5, 60 * 60 * 1000); // 1 hour
+        rateLimiter = createRateLimiter(5, 60 * 60 * 1000);
         limitType = 'submission';
       } else if (endpoint.includes('/ideas')) {
-        // 10 ideas per hour per IP
-        rateLimiter = createRateLimiter(10, 60 * 60 * 1000); // 1 hour
+        rateLimiter = createRateLimiter(10, 60 * 60 * 1000);
         limitType = 'idea';
       }
 

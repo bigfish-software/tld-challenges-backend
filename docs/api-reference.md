@@ -713,7 +713,7 @@ GET    /api/ideas/{id}                          # Get single idea (auth required
 POST   /api/ideas                               # Create idea (auth required)
 ```
 
-**Idea Creation with Social Links**
+**Idea Creation**
 ```http
 POST /api/ideas
 Authorization: Bearer YOUR_JWT_TOKEN
@@ -724,16 +724,12 @@ Content-Type: application/json
     "type": "Challenge",
     "description": "New challenge idea description",
     "creator": "Player Name",
-    "social_links": [
-      "https://twitch.tv/playername",
-      "https://youtube.com/channel/xyz"
-    ],
     "publishedAt": null
   }
 }
 ```
 
-**Note**: The `social_links` array automatically creates `Creator-Social` entries. Ideas start as drafts requiring admin approval.
+**Note**: Ideas start as drafts requiring admin approval.
 
 **Filtering & Population**
 ```http
@@ -761,18 +757,6 @@ GET /api/ideas?populate[creator]=*
   }
 }
 ```
-
-### Creator-Social API
-
-**Collection Endpoints**
-```http
-GET    /api/creator-socials                     # List creator socials (auth required)
-GET    /api/creator-socials?populate=*          # List with creator relations (auth required)
-GET    /api/creator-socials/{id}                # Get single creator social (auth required)
-```
-
-**Available Fields**: url
-**Relations**: creator
 
 ### Stats API
 
@@ -1030,13 +1014,6 @@ All endpoints are subject to rate limiting:
 }
 ```
 
-### Creator-Social Fields
-```typescript
-{
-  url: text;               // social media URL
-}
-```
-
 ## Detailed Endpoint Examples
 
 ### Challenge by Slug
@@ -1177,7 +1154,7 @@ This API includes several custom controllers beyond the auto-generated Strapi en
    - `GET /api/creators/slug/{slug}` - Creator retrieval by slug
 
 2. **Enhanced idea submission**: 
-   - `POST /api/ideas` - Supports automatic social links creation via `social_links` array
+   - `POST /api/ideas` - Validates idea type and description with draft creation
 
 3. **Enhanced submission validation**: 
    - `POST /api/submissions` - Input validation and URL verification

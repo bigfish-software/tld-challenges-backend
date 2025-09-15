@@ -20,7 +20,7 @@
       ]
     },
     "description": {
-      "type": "blocks"
+      "type": "text"
     },
     "creator": {
       "type": "string"

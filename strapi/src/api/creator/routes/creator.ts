@@ -1,10 +1,5 @@
-/**
- * creator router
- */
-
 export default {
   routes: [
-    // Custom route for slug-based retrieval (must come first to avoid conflicts)
     {
       method: 'GET',
       path: '/creators/slug/:slug',
@@ -17,7 +12,6 @@ export default {
         middlewares: [],
       },
     },
-    // Default CRUD routes
     {
       method: 'GET',
       path: '/creators',

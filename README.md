@@ -39,10 +39,9 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Tournament**: Tournament structures with comprehensive metadata and participant management
 - **CustomCode**: Reusable custom game configuration codes with thumbnails and featured status
 - **Rule**: Modular rule definitions with many-to-many challenge relationships
-- **Creator**: Challenge creator profiles with social media links and additional social connections
+- **Creator**: Challenge creator profiles with social media links
 - **FAQ**: Frequently asked questions with multi-entity associations (challenges, custom codes, tournaments)
-- **Idea**: Community suggestions and content ideas linked to creators with automatic social link creation
-- **Creator-Social**: Additional social media links for creators beyond Twitch/YouTube
+- **Idea**: Community suggestions and content ideas linked to creators
 - **Stats**: Dashboard statistics endpoint for content counts
 
 ## Setup and Development

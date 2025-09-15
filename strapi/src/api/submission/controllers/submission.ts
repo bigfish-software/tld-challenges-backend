@@ -1,7 +1,3 @@
-/**
- * submission controller
- */
-
 import { factories } from '@strapi/strapi'
 
 function isValidUrl(string: string): boolean {
@@ -14,16 +10,13 @@ function isValidUrl(string: string): boolean {
 }
 
 export default factories.createCoreController('api::submission.submission', ({ strapi }) => ({
-  // Enhanced create method with validation
   async create(ctx) {
     const { data } = ctx.request.body;
     
-    // Input validation
     if (!data.runner || !data.challenge || !data.video_url || !data.result) {
       return ctx.badRequest('Runner name, challenge, video URL, and result are required');
     }
     
-    // Validate URLs if provided
     if (data.runner_url && !isValidUrl(data.runner_url)) {
       return ctx.badRequest('Invalid runner URL format');
     }
@@ -32,21 +25,18 @@ export default factories.createCoreController('api::submission.submission', ({ s
       return ctx.badRequest('Invalid video URL format');
     }
     
-    // Check if challenge exists and use documentId for relations
     const challenge = await strapi.entityService.findOne('api::challenge.challenge', data.challenge);
     
     if (!challenge) {
       return ctx.badRequest('Challenge not found');
     }
     
-    // Use documentId for relations (Strapi v5 best practice)
     const challengeIdForRelation = challenge.documentId;
     
-    // Set submission as draft (requires admin approval)
     const submissionData = {
       ...data,
-      challenge: challengeIdForRelation, // Use draft ID for proper relations
-      publishedAt: null, // Start as draft
+      challenge: challengeIdForRelation,
+      publishedAt: null,
     };
     
     try {

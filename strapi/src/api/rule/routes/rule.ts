@@ -1,7 +1,3 @@
-/**
- * rule router
- */
-
 export default {
   routes: [
     {

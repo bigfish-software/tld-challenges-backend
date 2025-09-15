@@ -1,10 +1,5 @@
-/**
- * idea router
- */
-
 export default {
   routes: [
-    // Default CRUD routes
     {
       method: 'GET',
       path: '/ideas',

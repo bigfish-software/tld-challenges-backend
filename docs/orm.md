@@ -248,7 +248,6 @@ erDiagram
 - `challenges` (Many to Many ↔ Challenge) - Created/contributed challenges
 - `tournaments` (Many to Many ↔ Tournament) - Organized tournaments
 - `custom_codes` (Many to Many ↔ CustomCode) - Created custom codes
-- `creator_socials` (One to Many → Creator-Social) - Additional social media links
 
 **Features**: Draft/Publish enabled
 
@@ -277,7 +276,7 @@ erDiagram
 **Fields**:
 - `type` (Enumeration) - Type of idea being suggested
   - Options: "CustomCode", "Challenge", "Tournament"
-- `description` (Rich text/Blocks) - Detailed idea description
+- `description` (Text) - Detailed idea description
 - `creator` (Text) - Name of the idea contributor
 
 **Relations**:
@@ -286,17 +285,6 @@ erDiagram
 **Features**: Draft/Publish enabled
 
 ---
-
-### Creator-Social
-**Purpose**: Additional social media links for creators beyond Twitch/YouTube.
-
-**Fields**:
-- `url` (Text) - Social media URL
-
-**Relations**:
-- `creator` (Many to One → Creator) - Associated creator profile
-
-**Features**: Draft/Publish enabled
 
 ## Database Schema Implementation
 
@@ -376,7 +364,6 @@ tournaments_challenges_links.challenge_id → challenges.id
 tournaments_challenges_links.tournament_id → tournaments.id  
 submissions.challenge_id → challenges.id
 ideas.creator_id → creators.id
-creator_socials.creator_id → creators.id
 ```
 
 ## API Query Patterns
@@ -504,7 +491,6 @@ CREATE INDEX idx_tournaments_featured ON tournaments(is_featured);
 CREATE INDEX idx_custom_codes_featured ON custom_codes(is_featured);
 CREATE INDEX idx_ideas_type ON ideas(type);
 CREATE INDEX idx_ideas_creator ON ideas(creator_id);
-CREATE INDEX idx_creator_socials_creator ON creator_socials(creator_id);
 CREATE INDEX idx_published_content ON challenges(published_at);
 ```
 

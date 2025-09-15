@@ -25,11 +25,11 @@
     "creator": {
       "type": "string"
     },
-    "creator_socials": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::creator-social.creator-social",
-      "mappedBy": "idea"
+    "creator_twitch": {
+      "type": "string"
+    },
+    "creator_youtube": {
+      "type": "string"
     }
   }
 }

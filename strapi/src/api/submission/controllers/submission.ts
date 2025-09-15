@@ -32,16 +32,20 @@ export default factories.createCoreController('api::submission.submission', ({ s
       return ctx.badRequest('Invalid video URL format');
     }
     
-    // Check if challenge exists and is published
+    // Check if challenge exists and use documentId for relations
     const challenge = await strapi.entityService.findOne('api::challenge.challenge', data.challenge);
     
     if (!challenge) {
       return ctx.badRequest('Challenge not found');
     }
     
+    // Use documentId for relations (Strapi v5 best practice)
+    const challengeIdForRelation = challenge.documentId;
+    
     // Set submission as draft (requires admin approval)
     const submissionData = {
       ...data,
+      challenge: challengeIdForRelation, // Use draft ID for proper relations
       publishedAt: null, // Start as draft
     };
     
@@ -50,10 +54,13 @@ export default factories.createCoreController('api::submission.submission', ({ s
         data: submissionData,
       });
       
-      const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
-      return this.transformResponse(sanitizedEntity);
+      ctx.send({
+        data: entity,
+        meta: {},
+      });
     } catch (err) {
-      return ctx.badRequest('Failed to create submission', { details: err });
+      console.error('Submission creation error:', err);
+      return ctx.badRequest('Failed to create submission', { details: err.message });
     }
   },
 }));

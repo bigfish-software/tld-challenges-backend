@@ -427,36 +427,6 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiCreatorSocialCreatorSocial
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'creator_socials';
-  info: {
-    displayName: 'Creator Social';
-    pluralName: 'creator-socials';
-    singularName: 'creator-social';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    idea: Schema.Attribute.Relation<'manyToOne', 'api::idea.idea'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::creator-social.creator-social'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    url: Schema.Attribute.Text;
-  };
-}
-
 export interface ApiCreatorCreator extends Struct.CollectionTypeSchema {
   collectionName: 'creators';
   info: {
@@ -606,10 +576,8 @@ export interface ApiIdeaIdea extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     creator: Schema.Attribute.String;
-    creator_socials: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::creator-social.creator-social'
-    >;
+    creator_twitch: Schema.Attribute.String;
+    creator_youtube: Schema.Attribute.String;
     description: Schema.Attribute.Blocks;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::idea.idea'> &
@@ -1248,7 +1216,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::challenge.challenge': ApiChallengeChallenge;
-      'api::creator-social.creator-social': ApiCreatorSocialCreatorSocial;
       'api::creator.creator': ApiCreatorCreator;
       'api::custom-code.custom-code': ApiCustomCodeCustomCode;
       'api::faq.faq': ApiFaqFaq;

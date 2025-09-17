@@ -771,7 +771,8 @@ GET    /api/stats/overview                      # Get content statistics (auth r
   "data": {
     "challenges": 3,
     "customCodes": 2,
-    "tournaments": 1
+    "tournaments": 1,
+    "submissions": 15
   },
   "meta": {}
 }

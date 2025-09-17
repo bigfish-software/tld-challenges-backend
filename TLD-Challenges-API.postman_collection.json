@@ -726,6 +726,37 @@
 			"description": "Community idea submission endpoints"
 		},
 		{
+			"name": "Stats",
+			"item": [
+				{
+					"name": "Get Overview Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/stats/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stats",
+								"overview"
+							]
+						},
+						"description": "Get statistics overview including counts of published challenges, custom codes, tournaments, and submissions"
+					},
+					"response": []
+				}
+			],
+			"description": "Statistics and analytics endpoints"
+		},
+		{
 			"name": "Error Cases",
 			"item": [
 				{

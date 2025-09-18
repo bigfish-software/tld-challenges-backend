@@ -27,7 +27,7 @@
     },
     "result": {
       "type": "text",
-      "required": true
+      "required": false
     },
     "challenge": {
       "type": "relation",

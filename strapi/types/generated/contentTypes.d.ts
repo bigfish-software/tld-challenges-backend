@@ -401,6 +401,8 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
       ['Easy', 'Medium', 'Hard', 'Very Hard']
     >;
     faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
+    has_leaderboard: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -412,6 +414,7 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     rules: Schema.Attribute.Relation<'manyToMany', 'api::rule.rule'>;
     slug: Schema.Attribute.UID<'name'>;
+    submission_result_sorting: Schema.Attribute.Enumeration<['ASC', 'DESC']>;
     submissions: Schema.Attribute.Relation<
       'oneToMany',
       'api::submission.submission'
@@ -710,7 +713,7 @@ export interface ApiSubmissionSubmission extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     note: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
-    result: Schema.Attribute.Text & Schema.Attribute.Required;
+    result: Schema.Attribute.Text;
     runner: Schema.Attribute.String & Schema.Attribute.Required;
     runner_url: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;

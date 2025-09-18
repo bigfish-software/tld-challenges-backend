@@ -14,5 +14,6 @@
       "note": "Great run! Used advanced strategy.",
       "runner_url": "https://twitch.tv/playername"
     }
-  }
+  },
+  "comment": "NOTE: The 'result' field is optional and can be omitted if the submission doesn't have a specific result/score yet."
 }

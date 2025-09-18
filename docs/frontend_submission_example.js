@@ -15,7 +15,7 @@ const submitRun = async (submissionData) => {
           runner: submissionData.runner,           // REQUIRED: string - Player/runner name
           challenge: submissionData.challengeId,   // REQUIRED: number - Challenge ID
           video_url: submissionData.videoUrl,      // REQUIRED: string - YouTube/Twitch video URL
-          result: submissionData.runTime,          // REQUIRED: string - Run time (e.g., "02:15:30")
+          result: submissionData.result,           // OPTIONAL: string - Run time or score (e.g., "02:15:30")
           note: submissionData.description,        // OPTIONAL: string - Description/notes
           runner_url: submissionData.runnerUrl      // OPTIONAL: string - Runner's profile URL
         }
@@ -41,7 +41,7 @@ const submissionData = {
   runner: "ProGamer123",                           // REQUIRED
   challengeId: 17,                                 // REQUIRED
   videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",  // REQUIRED
-  runTime: "01:45:23",                             // REQUIRED
+  result: "01:45:23",                              // OPTIONAL (can be null or omitted)
   description: "Amazing speedrun with new techniques!",     // OPTIONAL
   runnerUrl: "https://twitch.tv/progamer123"        // OPTIONAL
 };

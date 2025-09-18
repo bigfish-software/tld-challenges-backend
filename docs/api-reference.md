@@ -40,11 +40,17 @@ GET /api/challenges?filters[difficulty][$eq]=Hard
 # Filter by featured status
 GET /api/challenges?filters[is_featured][$eq]=true
 
+# Filter by leaderboard availability
+GET /api/challenges?filters[has_leaderboard][$eq]=true
+
+# Filter by result sorting direction
+GET /api/challenges?filters[submission_result_sorting][$eq]=ASC
+
 # Filter by publication state
 GET /api/challenges?filters[publishedAt][$notNull]=true
 ```
 
-**Available Fields**: name, slug, thumbnail, description_short, description_long, difficulty, is_featured
+**Available Fields**: name, slug, thumbnail, description_short, description_long, difficulty, is_featured, has_leaderboard, submission_result_sorting
 **Relations**: submissions, custom_code, rules, tournament, creators, faqs
 
 **Sample Responses**
@@ -64,7 +70,9 @@ GET /api/challenges?filters[publishedAt][$notNull]=true
       "description_long": null,
       "description_short": null,
       "difficulty": "Medium",
-      "is_featured": false
+      "is_featured": false,
+      "has_leaderboard": true,
+      "submission_result_sorting": "ASC"
     },
     {
       "id": 7,
@@ -77,7 +85,9 @@ GET /api/challenges?filters[publishedAt][$notNull]=true
       "description_long": null,
       "description_short": null,
       "difficulty": "Hard",
-      "is_featured": false
+      "is_featured": false,
+      "has_leaderboard": false,
+      "submission_result_sorting": null
     },
     {
       "id": 9,
@@ -90,7 +100,9 @@ GET /api/challenges?filters[publishedAt][$notNull]=true
       "description_long": null,
       "description_short": null,
       "difficulty": "Very Hard",
-      "is_featured": false
+      "is_featured": false,
+      "has_leaderboard": true,
+      "submission_result_sorting": "DESC"
     }
   ],
   "meta": {
@@ -119,6 +131,8 @@ GET /api/challenges?filters[publishedAt][$notNull]=true
     "description_short": null,
     "difficulty": "Medium",
     "is_featured": false,
+    "has_leaderboard": true,
+    "submission_result_sorting": "ASC",
     "thumbnail": null,
     "submissions": [],
     "custom_code": null,
@@ -827,7 +841,9 @@ GET /api/challenges?publicationState=preview     # Published + drafts (admin)
     "publishedAt": "2025-08-30T07:50:05.939Z",
     "description_long": null,
     "description_short": null,
-    "is_featured": false
+    "is_featured": false,
+    "has_leaderboard": true,
+    "submission_result_sorting": "ASC"
   },
   "meta": {}
 }
@@ -848,7 +864,9 @@ GET /api/challenges?publicationState=preview     # Published + drafts (admin)
       "publishedAt": "2025-08-30T07:50:05.939Z",
       "description_long": null,
       "description_short": null,
-      "is_featured": false
+      "is_featured": false,
+      "has_leaderboard": true,
+      "submission_result_sorting": "ASC"
     }
   ],
   "meta": {
@@ -928,13 +946,15 @@ All endpoints are subject to rate limiting:
 ### Challenge Fields
 ```typescript
 {
-  name: string;              // required
-  slug: string;             // uid, auto-generated from name
-  thumbnail: media;         // images/files
-  description_short: text;   // brief description
-  description_long: blocks;  // rich text content
-  difficulty: enum;         // "Easy" | "Medium" | "Hard" | "Very Hard"
-  is_featured: boolean;     // default: false
+  name: string;                      // required
+  slug: string;                     // uid, auto-generated from name
+  thumbnail: media;                 // images/files
+  description_short: text;           // brief description
+  description_long: blocks;          // rich text content
+  difficulty: enum;                 // "Easy" | "Medium" | "Hard" | "Very Hard"
+  is_featured: boolean;             // default: false
+  has_leaderboard: boolean;         // default: false
+  submission_result_sorting: enum;  // "ASC" | "DESC" (only visible when has_leaderboard is true)
 }
 ```
 
@@ -943,7 +963,7 @@ All endpoints are subject to rate limiting:
 {
   runner: string;           // required
   runner_url: string;       // optional
-  video_url: string;        // optional
+  video_url: string;        // required
   note: text;              // optional
   result: text;            // optional
 }
@@ -1042,7 +1062,9 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
     "description_long": null,
     "description_short": null,
     "difficulty": "Medium",
-    "is_featured": false
+    "is_featured": false,
+    "has_leaderboard": true,
+    "submission_result_sorting": "ASC"
   },
   "meta": {}
 }

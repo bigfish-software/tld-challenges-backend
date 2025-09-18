@@ -23,9 +23,9 @@ This directory contains sample requests, test files, and documentation examples 
 - `runner` (string) - Player/runner name
 - `challenge` (number) - Challenge ID from database
 - `video_url` (string) - YouTube/Twitch video URL
-- `result` (string) - Run time (e.g., "02:15:30")
 
 ### Optional Fields:
+- `result` (string) - Run time or score (e.g., "02:15:30")
 - `note` (string) - Description or notes about the run
 - `runner_url` (string) - Runner's profile URL (Twitch, YouTube, etc.)
 

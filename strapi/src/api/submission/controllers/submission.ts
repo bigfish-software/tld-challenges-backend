@@ -13,8 +13,8 @@ export default factories.createCoreController('api::submission.submission', ({ s
   async create(ctx) {
     const { data } = ctx.request.body;
     
-    if (!data.runner || !data.challenge || !data.video_url || !data.result) {
-      return ctx.badRequest('Runner name, challenge, video URL, and result are required');
+    if (!data.runner || !data.challenge || !data.video_url) {
+      return ctx.badRequest('Runner name, challenge, and video URL are required');
     }
     
     if (data.runner_url && !isValidUrl(data.runner_url)) {

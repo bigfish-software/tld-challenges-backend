@@ -34,7 +34,7 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Performance Optimized**: No media processing or storage overhead
 
 ### Content Types (Implemented)
-- **Challenge**: Main challenge definitions with thumbnails, dual descriptions, difficulty levels, and featured status
+- **Challenge**: Main challenge definitions with thumbnails, dual descriptions, difficulty levels, featured status, and leaderboard configuration
 - **Submission**: User run submissions with external media links and workflow management
 - **Tournament**: Tournament structures with comprehensive metadata and participant management
 - **CustomCode**: Reusable custom game configuration codes with thumbnails and featured status

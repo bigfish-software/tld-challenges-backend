@@ -35,6 +35,27 @@
     "description_long": {
       "type": "blocks"
     },
+    "has_leaderboard": {
+      "type": "boolean",
+      "default": false
+    },
+    "submission_result_sorting": {
+      "type": "enumeration",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "has_leaderboard"
+            },
+            true
+          ]
+        }
+      },
+      "enum": [
+        "ASC",
+        "DESC"
+      ]
+    },
     "difficulty": {
       "type": "enumeration",
       "enum": [

@@ -144,6 +144,9 @@ erDiagram
 - `difficulty` (Enumeration) - Challenge difficulty level
   - Options: "Easy", "Medium", "Hard", "Very Hard"
 - `is_featured` (Boolean, default: false) - Featured status for highlighting
+- `has_leaderboard` (Boolean, default: false) - Whether this challenge has a leaderboard
+- `submission_result_sorting` (Enumeration) - Result sorting direction (only visible when has_leaderboard is true)
+  - Options: "ASC", "DESC"
 
 **Relations**:
 - `submissions` (One to Many → Submission) - User submissions for this challenge
@@ -163,9 +166,9 @@ erDiagram
 **Fields**:
 - `runner` (Text, required) - Submitter's display name
 - `runner_url` (Text) - Optional link to runner's profile (Twitch/YouTube)
-- `video_url` (Text) - Link to submission video/proof
+- `video_url` (Text, required) - Link to submission video/proof
 - `note` (Text) - Additional submission notes or comments
-- `result` (Text) - Run result/time/score
+- `result` (Text) - Run result/time/score (optional)
 
 **Relations**:
 - `challenge` (Many to One → Challenge) - Associated challenge
@@ -461,10 +464,11 @@ const tournaments = await strapi.entityService.findMany('api::tournament.tournam
 - `CustomCode.code`
 - `Rule.description`
 - `FAQ.question` and `FAQ.answer`
-- `Submission.runner`
+- `Submission.runner` and `Submission.video_url`
 
 ### Enumeration Constraints
 - `Challenge.difficulty`: "Easy", "Medium", "Hard", "Very Hard"
+- `Challenge.submission_result_sorting`: "ASC", "DESC"
 - `Tournament.state`: "planned", "active", "completed", "cancelled"
 - `Idea.type`: "CustomCode", "Challenge", "Tournament"
 

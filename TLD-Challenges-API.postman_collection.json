@@ -177,6 +177,66 @@
 					"response": []
 				},
 				{
+					"name": "Filter by Leaderboard Availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?filters[has_leaderboard][$eq]=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "filters[has_leaderboard][$eq]",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Get challenges that have leaderboards enabled"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter by Result Sorting",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenges?filters[submission_result_sorting][$eq]=ASC",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"challenges"
+							],
+							"query": [
+								{
+									"key": "filters[submission_result_sorting][$eq]",
+									"value": "ASC"
+								}
+							]
+						},
+						"description": "Get challenges with ascending result sorting"
+					},
+					"response": []
+				},
+				{
 					"name": "Challenge Not Found (404)",
 					"request": {
 						"method": "GET",
@@ -578,7 +638,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"data\": {\n    \"runner\": \"TestRunner\",\n    \"run_time\": \"02:15:30\",\n    \"video_url\": \"https://www.youtube.com/watch?v=example\",\n    \"description\": \"Great run with new strategy\",\n    \"challenge\": 1\n  }\n}"
+							"raw": "{\n  \"data\": {\n    \"runner\": \"TestRunner\",\n    \"result\": \"02:15:30\",\n    \"video_url\": \"https://www.youtube.com/watch?v=example\",\n    \"note\": \"Great run with new strategy\",\n    \"runner_url\": \"https://twitch.tv/testrunner\",\n    \"challenge\": 1\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/submissions",
@@ -591,6 +651,38 @@
 							]
 						},
 						"description": "Submit a new run"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Submission (No Result)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"runner\": \"TestRunner\",\n    \"video_url\": \"https://www.youtube.com/watch?v=example\",\n    \"note\": \"Submission without result field\",\n    \"runner_url\": \"https://twitch.tv/testrunner\",\n    \"challenge\": 1\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/submissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"submissions"
+							]
+						},
+						"description": "Submit a run without the result field (demonstrating it's optional)"
 					},
 					"response": []
 				},
@@ -644,7 +736,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"data\": {\n    \"runner_name\": \"\",\n    \"video_url\": \"invalid-url\"\n  }\n}"
+							"raw": "{\n  \"data\": {\n    \"runner\": \"\",\n    \"video_url\": \"invalid-url\"\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/submissions",

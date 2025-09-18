@@ -37,7 +37,7 @@
       "error": {
         "status": 400,
         "name": "BadRequestError",
-        "message": "Runner name, challenge, video URL, and result are required"
+        "message": "Runner name, challenge, and video URL are required"
       }
     },
     "401": {
@@ -62,10 +62,10 @@
     "required": [
       "runner (string) - Player/runner name",
       "challenge (number) - Challenge ID from database",
-      "video_url (string) - YouTube/Twitch video URL",
-      "result (string) - Run time (e.g., '02:15:30')"
+      "video_url (string) - YouTube/Twitch video URL"
     ],
     "optional": [
+      "result (string) - Run time or score (e.g., '02:15:30')",
       "note (string) - Description or notes about the run",
       "runner_url (string) - Runner's profile URL (Twitch, YouTube, etc.)"
     ]

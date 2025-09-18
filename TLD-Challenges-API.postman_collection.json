@@ -849,6 +849,42 @@
 			"description": "Statistics and analytics endpoints"
 		},
 		{
+			"name": "Page Hero",
+			"item": [
+				{
+					"name": "Get Page Hero",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/page-hero?populate=*",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"page-hero"
+							],
+							"query": [
+								{
+									"key": "populate",
+									"value": "*"
+								}
+							]
+						},
+						"description": "Get page hero images for all frontend page headers with full media population"
+					},
+					"response": []
+				}
+			],
+			"description": "Page hero media content for frontend headers"
+		},
+		{
 			"name": "Error Cases",
 			"item": [
 				{

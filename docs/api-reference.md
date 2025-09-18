@@ -798,6 +798,120 @@ GET    /api/stats/overview                      # Get content statistics (auth r
 - Requires authentication
 - Excludes draft content from counts
 
+### Page Hero API
+
+**Single Type Endpoint**
+```http
+GET    /api/page-hero?populate=*               # Get page hero media (auth required)
+```
+
+**Response Format**
+```json
+{
+  "data": {
+    "id": 1,
+    "documentId": "abc123def456",
+    "home": {
+      "id": 1,
+      "documentId": "media123",
+      "name": "home-hero.jpg",
+      "alternativeText": "Home page hero image",
+      "caption": null,
+      "width": 1920,
+      "height": 1080,
+      "formats": {
+        "large": {
+          "url": "/uploads/large_home_hero_abc123.jpg",
+          "width": 1000,
+          "height": 563
+        },
+        "medium": {
+          "url": "/uploads/medium_home_hero_abc123.jpg",
+          "width": 750,
+          "height": 422
+        },
+        "small": {
+          "url": "/uploads/small_home_hero_abc123.jpg",
+          "width": 500,
+          "height": 281
+        },
+        "thumbnail": {
+          "url": "/uploads/thumbnail_home_hero_abc123.jpg",
+          "width": 245,
+          "height": 138
+        }
+      },
+      "hash": "home_hero_abc123",
+      "ext": ".jpg",
+      "mime": "image/jpeg",
+      "size": 89.21,
+      "url": "/uploads/home_hero_abc123.jpg",
+      "previewUrl": null,
+      "provider": "local",
+      "provider_metadata": null,
+      "createdAt": "2025-09-18T10:00:00.000Z",
+      "updatedAt": "2025-09-18T10:00:00.000Z"
+    },
+    "codes": {
+      "id": 2,
+      "documentId": "media456",
+      "name": "codes-hero.jpg",
+      "alternativeText": "Custom codes page hero image",
+      "url": "/uploads/codes_hero_def456.jpg"
+    },
+    "challenges": {
+      "id": 3,
+      "documentId": "media789",
+      "name": "challenges-hero.jpg",
+      "alternativeText": "Challenges page hero image",
+      "url": "/uploads/challenges_hero_ghi789.jpg"
+    },
+    "tournament": {
+      "id": 4,
+      "documentId": "media101",
+      "name": "tournament-hero.jpg",
+      "alternativeText": "Tournament page hero image",
+      "url": "/uploads/tournament_hero_jkl101.jpg"
+    },
+    "submit_run": {
+      "id": 5,
+      "documentId": "media112",
+      "name": "submit-run-hero.jpg",
+      "alternativeText": "Submit run page hero image",
+      "url": "/uploads/submit_run_hero_mno112.jpg"
+    },
+    "submit_idea": {
+      "id": 6,
+      "documentId": "media131",
+      "name": "submit-idea-hero.jpg",
+      "alternativeText": "Submit idea page hero image",
+      "url": "/uploads/submit_idea_hero_pqr131.jpg"
+    },
+    "support": {
+      "id": 7,
+      "documentId": "media415",
+      "name": "support-hero.jpg",
+      "alternativeText": "Support page hero image",
+      "url": "/uploads/support_hero_stu415.jpg"
+    },
+    "createdAt": "2025-09-18T10:00:00.000Z",
+    "updatedAt": "2025-09-18T10:00:00.000Z",
+    "publishedAt": "2025-09-18T10:00:00.000Z"
+  },
+  "meta": {}
+}
+```
+
+**Available Fields**: home, codes, challenges, tournament, submit_run, submit_idea, support
+**Media Population**: All media fields are fully populated with metadata, formats, and URLs
+
+**Features**:
+- Single type endpoint (no ID required)
+- Contains hero images for all frontend page headers
+- All media fields fully populated by default with `populate=*`
+- Returns media metadata including dimensions, formats, and URLs
+- Requires authentication
+
 ## Query Parameters
 
 ### Pagination
@@ -1032,6 +1146,19 @@ All endpoints are subject to rate limiting:
   type: enum;              // "CustomCode" | "Challenge" | "Tournament"
   description: blocks;     // rich text content
   creator: string;         // creator name
+}
+```
+
+### Page Hero Fields
+```typescript
+{
+  home: media;             // home page hero image
+  codes: media;            // custom codes page hero image
+  challenges: media;       // challenges page hero image
+  tournament: media;       // tournament page hero image
+  submit_run: media;       // submit run page hero image
+  submit_idea: media;      // submit idea page hero image
+  support: media;          // support page hero image
 }
 ```
 

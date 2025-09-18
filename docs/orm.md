@@ -289,6 +289,29 @@ erDiagram
 
 ---
 
+### Page Hero
+**Purpose**: Single type containing hero images for all frontend page headers.
+
+**Fields**:
+- `home` (Media) - Hero image for the home page
+- `codes` (Media) - Hero image for the custom codes page
+- `challenges` (Media) - Hero image for the challenges page
+- `tournament` (Media) - Hero image for the tournament page
+- `submit_run` (Media) - Hero image for the submit run page
+- `submit_idea` (Media) - Hero image for the submit idea page
+- `support` (Media) - Hero image for the support page
+
+**Relations**:
+- None (single type with media fields only)
+
+**Features**: 
+- Single type (only one instance exists)
+- Draft/Publish enabled
+- All media fields support images and files
+- Centralized media management for frontend headers
+
+---
+
 ## Database Schema Implementation
 
 ### Junction Tables (Many-to-Many Relations)

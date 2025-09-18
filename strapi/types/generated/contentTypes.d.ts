@@ -650,6 +650,7 @@ export interface ApiPageHeroPageHero extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     submit_idea: Schema.Attribute.Media<'images' | 'files'>;
     submit_run: Schema.Attribute.Media<'images' | 'files'>;
+    support: Schema.Attribute.Media<'images' | 'files'>;
     tournament: Schema.Attribute.Media<'images' | 'files'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

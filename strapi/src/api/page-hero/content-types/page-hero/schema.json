@@ -58,6 +58,14 @@
         "images",
         "files"
       ]
+    },
+    "support": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
     }
   }
 }

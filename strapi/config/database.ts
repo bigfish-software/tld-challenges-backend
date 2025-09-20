@@ -1,7 +1,10 @@
 export default ({ env }) => ({
   connection: {
     client: 'postgres',
-    connection: {
+    connection: env('NODE_ENV') === 'production' ? {
+      connectionString: env('DATABASE_URL'),
+      ssl: false
+    } : {
       connectionString: env('DATABASE_URL'),
       host: env('DATABASE_HOST', 'localhost'),
       port: env.int('DATABASE_PORT', 5432),

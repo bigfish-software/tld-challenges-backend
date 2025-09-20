@@ -52,7 +52,7 @@ A web platform for The Long Dark community to manage challenges, tournaments, cu
 ## Repository Context
 
 ### Project Structure & Setup
-This repository contains the **Strapi CMS/API backend** for the (tld-challenges.com)[https://tld-challenges.com/]. The project follows Strapi v5+ conventions with TypeScript as the primary language.
+This repository contains the **Strapi CMS/API backend** for the TLD Challenges platform. The project follows Strapi v5+ conventions with TypeScript as the primary language.
 
 **Core Architecture Pattern:**
 ```
@@ -67,65 +67,41 @@ Frontend (React) → Strapi API (this repo) → PostgreSQL Database (tld-challen
 - **Data Relations**: Use Strapi's built-in relational fields instead of direct SQL relationships
 - **API Generation**: REST and GraphQL endpoints are automatically created per content-type
 
-#### 2. Project Structure (TypeScript-based)
-```
-/
-├── docs/                   # Setup guides and documentation
-├── strapi/                 # Strapi CMS application
-│   ├── src/
-│   │   ├── api/            # Business logic per API
-│   │   │   ├── challenge/  # Challenge-related endpoints
-│   │   │   ├── category/   # Challenge categories
-│   │   │   ├── tournament/ # Tournament management
-│   │   │   ├── submission/ # Run submissions
-│   │   │   └── leaderboard/ # Ranking and scores
-│   │   ├── components/     # Reusable content components
-│   │   ├── extensions/     # Plugin extensions
-│   │   ├── middlewares/    # Custom middleware
-│   │   ├── plugins/        # Local plugins
-│   │   └── policies/       # Access control policies
-│   ├── config/             # Strapi configuration
-│   ├── database/           # Database files
-│   └── types/              # TypeScript type definitions
-├── .github/                # GitHub workflows and templates
-└── README.md               # Project documentation
-```
-
-#### 3. Data Model Approach
+#### 2. Data Model Approach
 - **Content-Types over SQL**: Define entities through Strapi Content-Type Builder, not direct database schemas
 - **Component Reuse**: Create reusable components for common structures (game settings, external media links)
 - **Dynamic Zones**: Use for flexible content areas (challenge descriptions, rules)
 - **External Media Links**: Store metadata and URLs to YouTube/Twitch content, no local media storage
 
-#### 4. API Development Patterns
+#### 3. API Development Patterns
 - **Controller Extensions**: Customize endpoints in `strapi/src/api/[entity]/controllers/`
 - **Service Layer**: Business logic in `strapi/src/api/[entity]/services/`
 - **Route Customization**: Custom routes in `strapi/src/api/[entity]/routes/`
 - **Lifecycle Hooks**: Data validation and processing in content-type lifecycle functions
 
-#### 5. Integration Points
+#### 4. Integration Points
 - **Database**: Connects to PostgreSQL via configuration, not direct queries
 - **Frontend Communication**: RESTful API endpoints with JSON responses
 - **Authentication**: Use semantic_search to determine current authentication requirements
 - **External Media**: Store YouTube/Twitch URLs and metadata, no local media storage
 - **Rate Limiting**: Use code search to verify current rate limiting implementation
 
-#### 6. Development Environment
+#### 5. Development Environment
 - **Local Setup**: `npm run develop` from strapi directory for hot-reloading development server
 - **Admin Panel**: Available at `http://localhost:1337/admin` for content management
 - **API Testing**: Endpoints available at `http://localhost:1337/api/`
 - **Database Integration**: Connects to `tld-challenges-db` container via shared Docker network
 
-#### 7. Deployment Strategy
+#### 6. Deployment Strategy
 - **Container**: Docker deployment compatible with DigitalOcean, Railway, or Render
 - **Environment**: Production configurations through environment variables
 - **Database**: Connects to managed PostgreSQL instances in production
 - **External Assets**: No media storage requirements, only URL references to external platforms
 
-#### 8. Key Content-Types
+#### 7. Key Content-Types
 Use semantic_search and read_file tools to discover current content-type implementations and their field definitions. The data model includes challenges, submissions, tournaments, custom codes, rules, creators, FAQs, ideas, and creator social links with various relational structures.
 
-#### 9. API Customization Focus Areas
+#### 8. API Customization Focus Areas
 Use semantic_search to discover what custom controllers, routes, and middleware have been implemented. Focus areas include:
 - **Leaderboard Logic**: Complex ranking calculations in custom services
 - **Tournament Management**: Bracket and scoring systems

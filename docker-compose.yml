@@ -3,7 +3,7 @@ version: '3.8'
 services:
   tld-challenges-backend:
     env_file:
-      - strapi/.env
+      - strapi/.env.development.local
     build:
       context: .
       dockerfile: Dockerfile

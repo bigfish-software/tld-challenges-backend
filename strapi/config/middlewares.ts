@@ -33,7 +33,7 @@ export default ({ env }) => [
   {
     name: "strapi::cors",
     config: {
-      origin: ["http://localhost:3000", "https://tld-challenges.com"],
+      origin: ["http://localhost:3000", "https://tld-challenges-frontend-production.up.railway.app/", "https://tld-challenges.com"],
       methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
       headers: ["Content-Type", "Authorization", "Origin", "Accept"],
       keepHeaderOnError: true,
@@ -45,7 +45,6 @@ export default ({ env }) => [
   "strapi::session",
   "strapi::favicon",
   "strapi::public",
-  // Add custom rate limiting middleware
   {
     name: "global::rate-limit",
     config: {},

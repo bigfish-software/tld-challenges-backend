@@ -430,35 +430,6 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiCreatorSocialCreatorSocial
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'creator_socials';
-  info: {
-    displayName: 'Creator Social';
-    pluralName: 'creator-socials';
-    singularName: 'creator-social';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::creator-social.creator-social'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    url: Schema.Attribute.Text;
-  };
-}
-
 export interface ApiCreatorCreator extends Struct.CollectionTypeSchema {
   collectionName: 'creators';
   info: {
@@ -1282,7 +1253,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::challenge.challenge': ApiChallengeChallenge;
-      'api::creator-social.creator-social': ApiCreatorSocialCreatorSocial;
       'api::creator.creator': ApiCreatorCreator;
       'api::custom-code.custom-code': ApiCustomCodeCustomCode;
       'api::faq.faq': ApiFaqFaq;

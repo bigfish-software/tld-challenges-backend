@@ -19,6 +19,7 @@ export default factories.createCoreController('api::tournament.tournament', ({ s
           creators: true,
           faqs: true,
           challenges: {
+            sort: ['createdAt:asc'],
             populate: ['thumbnail', 'rules']
           }
         },

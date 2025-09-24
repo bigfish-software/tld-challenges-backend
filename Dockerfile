@@ -29,14 +29,21 @@ RUN chown -R strapi:nodejs /app
 # Build the Strapi application
 RUN npm run build
 
-# Create upload directory with correct permissions
-RUN mkdir -p /app/public/uploads && chown -R strapi:nodejs /app/public/uploads
+# Create startup script
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'mkdir -p /app/public/uploads' >> /app/start.sh && \
+    echo 'if [ "$(stat -c %u /app/public/uploads)" != "1001" ]; then' >> /app/start.sh && \
+    echo '  echo "Fixing upload directory permissions..."' >> /app/start.sh && \
+    echo '  chown -R 1001:1001 /app/public/uploads' >> /app/start.sh && \
+    echo 'fi' >> /app/start.sh && \
+    echo 'exec su-exec strapi npm start' >> /app/start.sh && \
+    chmod +x /app/start.sh
 
-# Switch to non-root user after setup
-USER strapi
+# Install su-exec for proper user switching
+RUN apk add --no-cache su-exec
 
 # Expose the port Strapi runs on
 EXPOSE 1337
 
-# Start Strapi directly
-CMD ["npm", "start"]
+# Run as root initially to fix permissions, then switch to strapi user
+CMD ["/app/start.sh"]

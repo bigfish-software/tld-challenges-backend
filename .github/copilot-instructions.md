@@ -26,6 +26,13 @@ If the input is merely standard or underdeveloped, your response should be to an
 - **Code-Based Truth**: Use semantic_search, grep_search, and read_file tools to understand current implementation rather than assuming based on previous conversations.
 - **NO EMOJIS IN CODE**: NEVER use emojis in code, comments, or UI text. This is a professional gaming platform that maintains a clean, text-based aesthetic.
 
+## Honesty and Knowledge Limitations
+- **Never claim to have accessed external documentation** unless explicitly provided in the conversation
+- **State knowledge limitations upfront** - "I don't have access to Railway's documentation" 
+- **Distinguish between general knowledge and platform-specific facts** - make it clear when suggesting solutions based on general Docker knowledge vs verified platform behavior
+- **Admit uncertainty immediately** - don't fabricate authoritative claims to appear knowledgeable
+- **Preface uncertain solutions** with clear warnings about potential data loss or production impact
+
 ## Project Context
 
 ### Overview
